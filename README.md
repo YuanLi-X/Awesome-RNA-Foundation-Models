@@ -10,7 +10,7 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 - [Model Timeline](#model-timeline) — Auto-generated timeline for confirmed RNA sequence foundation model entries
 - [Paper List](#paper-list) — RNA sequence foundation models (4 views), Benchmarks, Surveys
-- [Detailed Tables](#detailed-tables) — Detailed tables for all 50 model entries, 12 benchmarks, 3 surveys
+- [Detailed Tables](#detailed-tables) — Detailed tables for all 51 model entries, 12 benchmarks, 3 surveys
 - [Abbreviations](#abbreviations)
 - [Contributing](#contributing)
 
@@ -18,13 +18,13 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 ## Model Timeline
 
-Timeline of 50 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
+Timeline of 51 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
 
 **Date note:** timeline dates use each model's first public release or preprint when available; paper-list dates below use formal publication or conference dates when available.
 
-**Interactive view:** [open the SVG timeline](https://raw.githack.com/YuanLi-X/Awesome-RNA-Foundation-Models/main/assets/model_timeline-6788ff16a3af.svg) to click model labels and source papers.
+**Interactive view:** [open the SVG timeline](https://raw.githack.com/YuanLi-X/Awesome-RNA-Foundation-Models/main/assets/model_timeline-8e219ceb31ce.svg) to click model labels and source papers.
 
-[![RNA foundation model timeline](assets/model_timeline-6788ff16a3af.svg)](https://raw.githack.com/YuanLi-X/Awesome-RNA-Foundation-Models/main/assets/model_timeline-6788ff16a3af.svg)
+[![RNA foundation model timeline](assets/model_timeline-8e219ceb31ce.svg)](https://raw.githack.com/YuanLi-X/Awesome-RNA-Foundation-Models/main/assets/model_timeline-8e219ceb31ce.svg)
 
 ---
 
@@ -54,7 +54,7 @@ A survey list of RNA sequence foundation models and RNA-inclusive sequence found
 <blockquote>
 
 <details open>
-<summary><b>Core RNA Foundation Models (22)</b></summary>
+<summary><b>Core RNA Foundation Models (23)</b></summary>
 
 Primary contribution is a reusable RNA or mRNA sequence foundation model pre-trained on raw nucleotide sequences and intended for broad downstream transfer or generation.
 
@@ -145,6 +145,10 @@ Primary contribution is a reusable RNA or mRNA sequence foundation model pre-tra
 - **EVA** — [A Long-Context Generative Foundation Model Deciphers RNA Design Principles](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) (2026.03, preprint) [![abs](https://img.shields.io/badge/abs-2026.03-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2)
 
   > Introduces EVA, a Mixture-of-Experts decoder model for long-context RNA sequence generation, trained on 114M+ full-length RNA sequences for generating diverse functional RNA molecules at unprecedented lengths.
+
+- **-** — [Alzheimers Disease Brain Phenotypes are Age-dependent](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) (2026.04, preprint) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2)
+
+  > A widespread view of neurodegenerative disorders, including Alzheimers Disease (AD), frames their effects as accelerated aging, with the brain-age gap (BAG, the deviation of predicted brain age from chronological age) as a staple biomarker.
 
 </details>
 
@@ -472,7 +476,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>RNA Generative Models (3)</b></summary>
+<summary><b>RNA Generative Models (4)</b></summary>
 
 - **GenerRNA** — [GenerRNA: A generative pre-trained language model for de novo RNA design](https://doi.org/10.1371/journal.pone.0310814) (2024.10) [![abs](https://img.shields.io/badge/abs-2024.10-b31b1b.svg)](https://doi.org/10.1371/journal.pone.0310814) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/pfnet/GenerRNA)
 
@@ -485,6 +489,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **EVA** — [A Long-Context Generative Foundation Model Deciphers RNA Design Principles](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) (2026.03, preprint) [![abs](https://img.shields.io/badge/abs-2026.03-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2)
 
   > Introduces EVA, a Mixture-of-Experts decoder model for long-context RNA sequence generation, trained on 114M+ full-length RNA sequences for generating diverse functional RNA molecules at unprecedented lengths.
+
+- **-** — [Alzheimers Disease Brain Phenotypes are Age-dependent](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) (2026.04, preprint) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2)
+
+  > A widespread view of neurodegenerative disorders, including Alzheimers Disease (AD), frames their effects as accelerated aging, with the brain-age gap (BAG, the deviation of predicted brain age from chronological age) as a staple biomarker.
 
 </details>
 
@@ -669,7 +677,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>Decoder-only (GPT-family) (7)</b></summary>
+<summary><b>Decoder-only (GPT-family) (8)</b></summary>
 
 - **GenSLM** — [GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics](https://doi.org/10.1177/10943420231201154) (2023.11) [![abs](https://img.shields.io/badge/abs-2023.11-b31b1b.svg)](https://doi.org/10.1177/10943420231201154)
 
@@ -698,6 +706,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **OmniNA** — [A foundation model for nucleotide sequences](https://academic.oup.com/nar/article/54/6/gkag083/8528802) (2026.03) [![abs](https://img.shields.io/badge/abs-2026.03-b31b1b.svg)](https://academic.oup.com/nar/article/54/6/gkag083/8528802) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/xilinshen/OmniNA) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/XLS/OmniNA-1.7B)
 
   > Introduces OmniNA, an annotation-aware generative foundation model for nucleic acid sequences trained on NCBI NT nucleotide sequences and annotations spanning genomic DNA and RNA, with reusable representations for genomics and transcriptomics tasks.
+
+- **-** — [Alzheimers Disease Brain Phenotypes are Age-dependent](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) (2026.04, preprint) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2)
+
+  > A widespread view of neurodegenerative disorders, including Alzheimers Disease (AD), frames their effects as accelerated aging, with the brain-age gap (BAG, the deviation of predicted brain age from chronological age) as a staple biomarker.
 
 </details>
 
@@ -774,7 +786,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Single Nucleotide Token (SNT) (28)</b></summary>
+<summary><b>Single Nucleotide Token (SNT) (29)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -887,6 +899,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **Orthrus** — [Orthrus: toward evolutionary and functional RNA foundation models](https://www.nature.com/articles/s41592-026-03064-3) (2026.04) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.nature.com/articles/s41592-026-03064-3) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/quietflamingo/orthrus-large-4-track)
 
   > Introduces Orthrus, a Mamba-based mature RNA foundation model using contrastive learning on transcript isoforms and cross-species orthologs to learn evolutionary and functional RNA representations.
+
+- **-** — [Alzheimers Disease Brain Phenotypes are Age-dependent](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) (2026.04, preprint) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2)
+
+  > A widespread view of neurodegenerative disorders, including Alzheimers Disease (AD), frames their effects as accelerated aging, with the brain-age gap (BAG, the deviation of predicted brain age from chronological age) as a staple biomarker.
 
 </details>
 
@@ -1191,6 +1207,7 @@ Models focused on RNA sequence generation or generative transcript modeling.
 | <nobr>**GenerRNA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.1371/journal.pone.0310814)</nobr> | <nobr>[Code](https://huggingface.co/pfnet/GenerRNA)</nobr> | <nobr>2024.10</nobr> | <nobr>Decoder-only</nobr> | <nobr>350M</nobr> | <nobr>RNAcentral (16.09M seqs, ~17.4B nt)</nobr> | <nobr>BPE</nobr> |
 | <nobr>**RNAGenesis**</nobr> | <nobr>Adapted / Derived RNA Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2024.12.30.630826v2)</nobr> | <nobr>[Code](https://huggingface.co/Zaixi/RNAGenesis)</nobr> | <nobr>2024.12<br><sub>preprint</sub></nobr> | <nobr>Encoder + Diffusion</nobr> | <nobr>1B</nobr> | <nobr>RNAcentral clustered ncRNA</nobr> | <nobr>Hybrid N-gram</nobr> |
 | <nobr>**EVA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2)</nobr> | - | <nobr>2026.03<br><sub>preprint</sub></nobr> | <nobr>Decoder-only (MoE)</nobr> | - | <nobr>114M+ full-length RNA seqs</nobr> | - |
+| <nobr>**-**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.64898/2026.03.31.715296v2)</nobr> | - | <nobr>2026.04<br><sub>preprint</sub></nobr> | <nobr>Decoder-only</nobr> | - | - | <nobr>SNT</nobr> |
 
 </details>
 
