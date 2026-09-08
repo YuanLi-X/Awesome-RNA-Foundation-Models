@@ -15,6 +15,7 @@ import time
 from pathlib import Path
 from typing import Iterable
 from urllib.parse import urlencode
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 
@@ -59,6 +60,10 @@ RNA_TERMS = (
     "splice",
 )
 
+# arXiv asks API clients to leave three seconds between requests; going faster
+# earns a 429 that silently drops the query from the scan.
+ARXIV_REQUEST_INTERVAL_SECONDS = 3.0
+
 MODEL_TERMS = (
     "foundation model",
     "language model",
@@ -84,6 +89,13 @@ HIGH_CONFIDENCE_MODEL_TERMS = (
     "bert",
     "gpt",
     "mamba",
+)
+
+# Terms that lower a candidate's score but must never reject it outright:
+# RNA model papers routinely say "nucleic acid" in the title, and NucleicBERT
+# (Nature Machine Intelligence 2026) was dropped for exactly that reason.
+SOFT_PRIORITY_TERMS = (
+    "nucleic acid",
 )
 
 LOW_PRIORITY_TERMS = (
@@ -181,16 +193,37 @@ def existing_keys(*record_lists: Iterable[dict]) -> tuple[set[str], set[str]]:
     return titles, urls
 
 
+def request_raw(url: str, attempts: int = 4) -> str:
+    """Fetch a URL, backing off when a source rate-limits us.
+
+    arXiv answers bursts with HTTP 429, and a single failed query silently
+    drops a whole search term from the scan, so retry before giving up.
+    """
+    delay = 5.0
+    last_error: Exception | None = None
+    for attempt in range(attempts):
+        req = Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urlopen(req, timeout=60) as response:
+                return response.read().decode("utf-8")
+        except HTTPError as exc:
+            last_error = exc
+            if exc.code not in (429, 503):
+                raise
+        except URLError as exc:
+            last_error = exc
+        if attempt < attempts - 1:
+            time.sleep(delay)
+            delay *= 2
+    raise last_error if last_error else RuntimeError(f"failed to fetch {url}")
+
+
 def request_json(url: str) -> dict:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=30) as response:
-        return yaml.safe_load(response.read().decode("utf-8"))
+    return yaml.safe_load(request_raw(url))
 
 
 def request_text(url: str) -> str:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=30) as response:
-        return response.read().decode("utf-8")
+    return request_raw(url)
 
 
 def compact(value: str) -> str:
@@ -280,12 +313,13 @@ def build_queries(confirmed: list[dict]) -> list[str]:
 
 
 def query_crossref(query: str, from_date: date, max_results: int) -> list[Candidate]:
+    # Crossref's publication dates are frequently wrong (entries dated 2029 or
+    # 2114 are common), so sorting by date fills every page with unrelated work
+    # and buries real matches. Relevance ranking is the only usable order here.
     params = urlencode({
-        "query.title": query,
+        "query.bibliographic": query,
         "filter": f"from-pub-date:{from_date.isoformat()}",
         "rows": max_results,
-        "sort": "published",
-        "order": "desc",
     })
     url = f"https://api.crossref.org/works?{params}"
     data = request_json(url)
@@ -334,7 +368,7 @@ def is_likely_new_model(candidate: Candidate) -> bool:
     has_high_confidence_model_term = any(term in text for term in HIGH_CONFIDENCE_MODEL_TERMS)
     if not (has_rna and has_high_confidence_model_term):
         return False
-    if any(term in title for term in LOW_PRIORITY_TERMS):
+    if any(term in title for term in LOW_PRIORITY_TERMS if term not in SOFT_PRIORITY_TERMS):
         return False
     if any(term in title for term in BENCHMARK_TERMS):
         return False
@@ -351,7 +385,6 @@ def is_likely_new_model(candidate: Candidate) -> bool:
         "genomes and transcriptomes",
         "central dogma",
         "metagenomic",
-        "nucleic acid",
         "dna and rna",
         "dna rna",
         "protein conditional",
@@ -451,11 +484,11 @@ def discover(lookback_days: int, max_results: int, min_score: int) -> list[dict]
     queries = build_queries(confirmed)
     for query in queries:
         extend_from_source(f"arXiv query {query!r}", lambda query=query: query_arxiv(query, max_results))
-        time.sleep(0.2)
+        time.sleep(ARXIV_REQUEST_INTERVAL_SECONDS)
     extend_from_source("bioRxiv recent scan", lambda: query_biorxiv(from_date, to_date))
-    for query in queries[:10]:
+    for query in queries:
         extend_from_source(f"Crossref query {query!r}", lambda query=query: query_crossref(query, from_date, max_results))
-        time.sleep(0.2)
+        time.sleep(1.0)
 
     new_records = []
     seen_titles = set(known_titles)

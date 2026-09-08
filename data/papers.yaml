@@ -857,3 +857,22 @@
   review_status: auto_classified
   discovered_at: '2026-09-05'
   timeline_url: https://arxiv.org/abs/2608.22849v2
+- name: NucleicBERT
+  title: NucleicBERT interprets RNA sequence space through self-supervised language modelling
+  paper_url: https://www.nature.com/articles/s42256-026-01295-9
+  date: '2026.09'
+  timeline_date: '2025.09'
+  timeline_url: https://www.biorxiv.org/content/10.1101/2025.09.02.673754v2
+  github_url: https://github.com/KIT-MBS/NucleicBERT
+  hf_url: null
+  scope: core_rna_fm
+  category: ncRNA FM
+  abstract: Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA
+    sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without
+    alignments or evolutionary information.
+  architecture: Encoder-only
+  tokenization: SNT
+  table_architecture: Encoder-only
+  params: 404M
+  pretraining_data: MARS (30M ncRNA seqs)
+  table_tokenization: SNT (BPE, clump 1)

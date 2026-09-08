@@ -10,7 +10,7 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 - [Model Timeline](#model-timeline) — Auto-generated timeline for confirmed RNA sequence foundation model entries
 - [Paper List](#paper-list) — RNA sequence foundation models (4 views), Benchmarks, Surveys
-- [Detailed Tables](#detailed-tables) — Detailed tables for all 52 model entries, 12 benchmarks, 3 surveys
+- [Detailed Tables](#detailed-tables) — Detailed tables for all 53 model entries, 12 benchmarks, 3 surveys
 - [Abbreviations](#abbreviations)
 - [Contributing](#contributing)
 
@@ -18,13 +18,13 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 ## Model Timeline
 
-Timeline of 52 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
+Timeline of 53 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
 
 **Date note:** timeline dates use each model's first public release or preprint when available; paper-list dates below use formal publication or conference dates when available.
 
-**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-95cc8d834b11.svg) to click model labels and source papers.
+**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-83e9982966e9.svg) to click model labels and source papers.
 
-[![RNA foundation model timeline](assets/model_timeline-95cc8d834b11.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-95cc8d834b11.svg)
+[![RNA foundation model timeline](assets/model_timeline-83e9982966e9.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-83e9982966e9.svg)
 
 ---
 
@@ -54,7 +54,7 @@ A survey list of RNA sequence foundation models and RNA-inclusive sequence found
 <blockquote>
 
 <details open>
-<summary><b>Core RNA Foundation Models (23)</b></summary>
+<summary><b>Core RNA Foundation Models (24)</b></summary>
 
 Primary contribution is a reusable RNA or mRNA sequence foundation model pre-trained on raw nucleotide sequences and intended for broad downstream transfer or generation.
 
@@ -149,6 +149,10 @@ Primary contribution is a reusable RNA or mRNA sequence foundation model pre-tra
 - **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
 
   > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
+
+- **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
+
+  > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
 
 </details>
 
@@ -299,7 +303,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>ncRNA Sequence Models (16)</b></summary>
+<summary><b>ncRNA Sequence Models (17)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -364,6 +368,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **RNAret** — [Retentive Network promotes efficient RNA language modeling of long sequences](https://www.nature.com/articles/s42003-026-09757-x) (2026.03) [![abs](https://img.shields.io/badge/abs-2026.03-b31b1b.svg)](https://www.nature.com/articles/s42003-026-09757-x) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/DrBlackZJU/RNAret/)
 
   > Introduces RNAret, a Retentive Network-based RNA language model pre-trained with masked language modeling on 29.8M RNAcentral sequences, enabling efficient long-sequence RNA representation learning across interaction, structure, and classification tasks.
+
+- **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
+
+  > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
 
 </details>
 
@@ -556,7 +564,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Encoder-only (BERT-family) (32)</b></summary>
+<summary><b>Encoder-only (BERT-family) (33)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -686,6 +694,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 
   > MotivationMicroRNAs (miRNAs) regulate gene expression by guiding Argonaute proteins to partially complementary sites on target RNAs.
 
+- **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
+
+  > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
+
 </details>
 
 <details open>
@@ -798,7 +810,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Single Nucleotide Token (SNT) (29)</b></summary>
+<summary><b>Single Nucleotide Token (SNT) (30)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -915,6 +927,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **Orthrus** — [Orthrus: toward evolutionary and functional RNA foundation models](https://www.nature.com/articles/s41592-026-03064-3) (2026.04) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.nature.com/articles/s41592-026-03064-3) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/quietflamingo/orthrus-large-4-track)
 
   > Introduces Orthrus, a Mamba-based mature RNA foundation model using contrastive learning on transcript isoforms and cross-species orthologs to learn evolutionary and functional RNA representations.
+
+- **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
+
+  > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
 
 </details>
 
@@ -1147,6 +1163,7 @@ Models primarily focused on non-coding RNA sequences (from RNAcentral, Rfam, etc
 | <nobr>**HydraRNA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03853-7)</nobr> | <nobr>[Code](https://github.com/GuipengLi/HydraRNA)</nobr> | <nobr>2025.11</nobr> | <nobr>Hybrid (SSM+Attention)</nobr> | <nobr>84M</nobr> | <nobr>28.1M RNAs (ncRNA + coding)</nobr> | <nobr>SNT</nobr> |
 | <nobr>**RNAElectra**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.64898/2026.03.15.711950)</nobr> | - | <nobr>2026.03<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | - | <nobr>RNAcentral ncRNAs</nobr> | <nobr>SNT</nobr> |
 | <nobr>**RNAret**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.nature.com/articles/s42003-026-09757-x)</nobr> | <nobr>[Code](https://github.com/DrBlackZJU/RNAret/)</nobr> | <nobr>2026.03</nobr> | <nobr>Hybrid (RetNet)</nobr> | <nobr>12M</nobr> | <nobr>RNAcentral (29.8M ncRNA seqs)</nobr> | <nobr>1/3/5-mer</nobr> |
+| <nobr>**NucleicBERT**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.nature.com/articles/s42256-026-01295-9)</nobr> | <nobr>[Code](https://github.com/KIT-MBS/NucleicBERT)</nobr> | <nobr>2026.09</nobr> | <nobr>Encoder-only</nobr> | <nobr>404M</nobr> | <nobr>MARS (30M ncRNA seqs)</nobr> | <nobr>SNT (BPE, clump 1)</nobr> |
 
 </details>
 
