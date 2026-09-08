@@ -10,7 +10,7 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 - [Model Timeline](#model-timeline) — Auto-generated timeline for confirmed RNA sequence foundation model entries
 - [Paper List](#paper-list) — RNA sequence foundation models (4 views), Benchmarks, Surveys
-- [Detailed Tables](#detailed-tables) — Detailed tables for all 53 model entries, 12 benchmarks, 3 surveys
+- [Detailed Tables](#detailed-tables) — Detailed tables for all 54 model entries, 12 benchmarks, 3 surveys
 - [Abbreviations](#abbreviations)
 - [Contributing](#contributing)
 
@@ -18,13 +18,13 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 ## Model Timeline
 
-Timeline of 53 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
+Timeline of 54 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
 
 **Date note:** timeline dates use each model's first public release or preprint when available; paper-list dates below use formal publication or conference dates when available.
 
-**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-83e9982966e9.svg) to click model labels and source papers.
+**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-981c1c694fc4.svg) to click model labels and source papers.
 
-[![RNA foundation model timeline](assets/model_timeline-83e9982966e9.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-83e9982966e9.svg)
+[![RNA foundation model timeline](assets/model_timeline-981c1c694fc4.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-981c1c694fc4.svg)
 
 ---
 
@@ -54,7 +54,7 @@ A survey list of RNA sequence foundation models and RNA-inclusive sequence found
 <blockquote>
 
 <details open>
-<summary><b>Core RNA Foundation Models (24)</b></summary>
+<summary><b>Core RNA Foundation Models (25)</b></summary>
 
 Primary contribution is a reusable RNA or mRNA sequence foundation model pre-trained on raw nucleotide sequences and intended for broad downstream transfer or generation.
 
@@ -149,6 +149,10 @@ Primary contribution is a reusable RNA or mRNA sequence foundation model pre-tra
 - **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
 
   > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
+
+- **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
+
+  > Presents CodonMamba, a 71M-parameter bidirectional Mamba encoder pre-trained with codon-level masked language modeling on 8.8M coding sequences from 1,544 organisms, serving as a reusable backbone whose frozen representations transfer across 12 mRNA design and property-prediction benchmarks.
 
 - **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
 
@@ -376,7 +380,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>mRNA / CDS Sequence Models (12)</b></summary>
+<summary><b>mRNA / CDS Sequence Models (13)</b></summary>
 
 - **GenSLM** — [GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics](https://doi.org/10.1177/10943420231201154) (2023.11) [![abs](https://img.shields.io/badge/abs-2023.11-b31b1b.svg)](https://doi.org/10.1177/10943420231201154)
 
@@ -425,6 +429,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
 
   > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
+
+- **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
+
+  > Presents CodonMamba, a 71M-parameter bidirectional Mamba encoder pre-trained with codon-level masked language modeling on 8.8M coding sequences from 1,544 organisms, serving as a reusable backbone whose frozen representations transfer across 12 mRNA design and property-prediction benchmarks.
 
 </details>
 
@@ -747,7 +755,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>Hybrid / SSM (Mamba, StripedHyena) (8)</b></summary>
+<summary><b>Hybrid / SSM (Mamba, StripedHyena) (9)</b></summary>
 
 - **LoRNA SH** — [A long-context RNA foundation model for predicting transcriptome architecture](https://doi.org/10.1101/2024.08.26.609813) (2024.08, preprint) [![abs](https://img.shields.io/badge/abs-2024.08-b31b1b.svg)](https://doi.org/10.1101/2024.08.26.609813) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.1101/2024.08.26.609813)
 
@@ -780,6 +788,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **Orthrus** — [Orthrus: toward evolutionary and functional RNA foundation models](https://www.nature.com/articles/s41592-026-03064-3) (2026.04) [![abs](https://img.shields.io/badge/abs-2026.04-b31b1b.svg)](https://www.nature.com/articles/s41592-026-03064-3) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/quietflamingo/orthrus-large-4-track)
 
   > Introduces Orthrus, a Mamba-based mature RNA foundation model using contrastive learning on transcript isoforms and cross-species orthologs to learn evolutionary and functional RNA representations.
+
+- **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
+
+  > Presents CodonMamba, a 71M-parameter bidirectional Mamba encoder pre-trained with codon-level masked language modeling on 8.8M coding sequences from 1,544 organisms, serving as a reusable backbone whose frozen representations transfer across 12 mRNA design and property-prediction benchmarks.
 
 </details>
 
@@ -935,7 +947,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>Codon-level Tokenization (11)</b></summary>
+<summary><b>Codon-level Tokenization (12)</b></summary>
 
 - **GenSLM** — [GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics](https://doi.org/10.1177/10943420231201154) (2023.11) [![abs](https://img.shields.io/badge/abs-2023.11-b31b1b.svg)](https://doi.org/10.1177/10943420231201154)
 
@@ -980,6 +992,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
 
   > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
+
+- **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
+
+  > Presents CodonMamba, a 71M-parameter bidirectional Mamba encoder pre-trained with codon-level masked language modeling on 8.8M coding sequences from 1,544 organisms, serving as a reusable backbone whose frozen representations transfer across 12 mRNA design and property-prediction benchmarks.
 
 </details>
 
@@ -1186,6 +1202,7 @@ Models focused on messenger RNA coding sequences or full mRNA sequences.
 | <nobr>**codonGPT**</nobr> | <nobr>Adapted / Derived RNA Models</nobr> | <nobr>[Paper](https://academic.oup.com/nar/article/53/22/gkaf1345/8384118)</nobr> | <nobr>[Code](https://github.com/NanilTx/codonGPT_pub)</nobr> | <nobr>2025.12</nobr> | <nobr>Decoder-only</nobr> | <nobr>GPT-2 based</nobr> | <nobr>Model-organism CDS (338K seqs)</nobr> | <nobr>Codon-level</nobr> |
 | <nobr>**NUWA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3)</nobr> | <nobr>[Code](https://github.com/zysxmu/NUWA)</nobr> | <nobr>2026.02<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | - | <nobr>Multi-species mRNA CDS (115M seqs)</nobr> | <nobr>Codon tokens</nobr> |
 | <nobr>**RIBOSPAN**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://arxiv.org/abs/2608.22849v2)</nobr> | - | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Specialized</nobr> | - | - | <nobr>Codon-level</nobr> |
+| <nobr>**CodonMamba**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.64898/2026.08.24.746601)</nobr> | <nobr>[Code](https://github.com/meilanglang/CodonMamba)</nobr> | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Hybrid (BiMamba)</nobr> | <nobr>71M</nobr> | <nobr>CaLM/ENA (8.8M CDS, 1544 organisms)</nobr> | <nobr>Codon-level</nobr> |
 
 </details>
 

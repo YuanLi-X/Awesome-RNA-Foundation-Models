@@ -876,3 +876,20 @@
   params: 404M
   pretraining_data: MARS (30M ncRNA seqs)
   table_tokenization: SNT (BPE, clump 1)
+- name: CodonMamba
+  title: 'CodonMamba: a foundation model for programmable mRNA coding sequence design'
+  paper_url: https://doi.org/10.64898/2026.08.24.746601
+  date: '2026.08'
+  github_url: https://github.com/meilanglang/CodonMamba
+  hf_url: https://huggingface.co/langmei/CodonMamba
+  scope: core_rna_fm
+  category: mRNA/CDS FM
+  abstract: Presents CodonMamba, a 71M-parameter bidirectional Mamba encoder pre-trained with codon-level masked language
+    modeling on 8.8M coding sequences from 1,544 organisms, serving as a reusable backbone whose frozen representations
+    transfer across 12 mRNA design and property-prediction benchmarks.
+  architecture: Hybrid/SSM
+  tokenization: Codon
+  table_architecture: Hybrid (BiMamba)
+  params: 71M
+  pretraining_data: CaLM/ENA (8.8M CDS, 1544 organisms)
+  table_tokenization: Codon-level
