@@ -117,3 +117,10 @@
   date: '2026.05'
   reason: Task-focused RNA sequence design model targeting constrained generation/inverse-folding pipelines (structure, sequence, coding)
     rather than a broad reusable RNA sequence foundation backbone/checkpoint for general downstream fine-tuning or representation learning.
+- name: miRBind2
+  title: miRBind2 enables sequence-only prediction of miRNA binding and transcript repression
+  paper_url: https://www.biorxiv.org/content/10.64898/2026.03.19.712027v1
+  date: '2026.03'
+  reason: Supervised CNN classifier trained on labelled miRNA-target pairs from miRBench with no self-supervised
+    pretraining corpus, so it carries no RNA sequence training signal; it was auto-classified into papers.yaml on
+    2026-05-20 without review.

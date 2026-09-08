@@ -819,25 +819,6 @@
   params: 66M / 1.7B
   pretraining_data: NCBI NT DNA + RNA sequences + annotations (91.7M seqs, 1.076T bases)
   table_tokenization: BPE + annotation prompts
-- name: miRBind2
-  title: miRBind2 enables sequence-only prediction of miRNA binding and transcript repression
-  paper_url: https://www.biorxiv.org/content/10.64898/2026.03.19.712027v1
-  date: '2026.03'
-  github_url: null
-  hf_url: null
-  scope: specialized_rna_fm
-  category: UTR FM
-  abstract: MotivationMicroRNAs (miRNAs) regulate gene expression by guiding Argonaute proteins to partially complementary
-    sites on target RNAs.
-  architecture: Encoder-only
-  tokenization: SNT
-  table_architecture: Encoder-only
-  params: '-'
-  pretraining_data: '-'
-  table_tokenization: SNT
-  review_status: auto_classified
-  discovered_at: '2026-05-20'
-  timeline_url: https://www.biorxiv.org/content/10.64898/2026.03.19.712027v1
 - name: RIBOSPAN
   title: 'RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling'
   paper_url: https://arxiv.org/abs/2608.22849v2
