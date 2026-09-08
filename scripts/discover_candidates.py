@@ -339,16 +339,27 @@ def query_crossref(query: str, from_date: date, max_results: int) -> list[Candid
     return candidates
 
 
+def has_term(text: str, term: str) -> bool:
+    """Match a term only where a word starts.
+
+    Plain substring tests made "journal", "internal", "alternative" and
+    "nutrition" register as RNA hits, which let weather-forecasting and
+    sentiment-analysis papers through. Anchoring the left edge still matches
+    run-together names like RNABert, RNAcentral and CodonMamba.
+    """
+    return re.search(rf"(?<![a-z0-9]){re.escape(term)}", text) is not None
+
+
 def score_candidate(candidate: Candidate) -> tuple[int, list[str]]:
     text = normalize_text(f"{candidate.title} {candidate.abstract}")
     score = 0
     evidence = []
     for term in RNA_TERMS:
-        if term in text:
+        if has_term(text, term):
             score += 2
             evidence.append(term)
     for term in MODEL_TERMS:
-        if term in text:
+        if has_term(text, term):
             score += 2
             evidence.append(term)
     if "foundation model" in text or "language model" in text:
@@ -364,8 +375,8 @@ def is_likely_new_model(candidate: Candidate) -> bool:
     title = normalize_text(candidate.title)
     raw_text = f"{candidate.title} {candidate.abstract}".lower()
     text = normalize_text(f"{candidate.title} {candidate.abstract}")
-    has_rna = any(term in text for term in RNA_TERMS)
-    has_high_confidence_model_term = any(term in text for term in HIGH_CONFIDENCE_MODEL_TERMS)
+    has_rna = any(has_term(text, term) for term in RNA_TERMS)
+    has_high_confidence_model_term = any(has_term(text, term) for term in HIGH_CONFIDENCE_MODEL_TERMS)
     if not (has_rna and has_high_confidence_model_term):
         return False
     if any(term in title for term in LOW_PRIORITY_TERMS if term not in SOFT_PRIORITY_TERMS):
