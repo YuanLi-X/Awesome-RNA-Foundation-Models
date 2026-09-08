@@ -10,7 +10,7 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 - [Model Timeline](#model-timeline) — Auto-generated timeline for confirmed RNA sequence foundation model entries
 - [Paper List](#paper-list) — RNA sequence foundation models (4 views), Benchmarks, Surveys
-- [Detailed Tables](#detailed-tables) — Detailed tables for all 53 model entries, 12 benchmarks, 3 surveys
+- [Detailed Tables](#detailed-tables) — Detailed tables for all 54 model entries, 12 benchmarks, 3 surveys
 - [Abbreviations](#abbreviations)
 - [Contributing](#contributing)
 
@@ -18,13 +18,13 @@ A curated, continuously updated catalog of **RNA sequence foundation models**, c
 
 ## Model Timeline
 
-Timeline of 53 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
+Timeline of 54 confirmed RNA sequence foundation model entries, generated from `data/papers.yaml` whenever confirmed metadata is refreshed.
 
 **Date note:** timeline dates use each model's first public release or preprint when available; paper-list dates below use formal publication or conference dates when available.
 
-**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-72977de35a3f.svg) to click model labels and source papers.
+**Interactive view:** [open the SVG timeline](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-f2ad12e51f40.svg) to click model labels and source papers.
 
-[![RNA foundation model timeline](assets/model_timeline-72977de35a3f.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-72977de35a3f.svg)
+[![RNA foundation model timeline](assets/model_timeline-f2ad12e51f40.svg)](https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets/model_timeline-f2ad12e51f40.svg)
 
 ---
 
@@ -161,7 +161,7 @@ Primary contribution is a reusable RNA or mRNA sequence foundation model pre-tra
 </details>
 
 <details open>
-<summary><b>Specialized RNA Foundation Models (19)</b></summary>
+<summary><b>Specialized RNA Foundation Models (20)</b></summary>
 
 RNA-specific pre-training is present, but the scope is constrained by RNA subtype, species, structural modality, or a narrow biological question.
 
@@ -228,6 +228,10 @@ RNA-specific pre-training is present, but the scope is constrained by RNA subtyp
 - **OmniGenome** — [Bridging Sequence-Structure Alignment in RNA Foundation Models](https://ojs.aaai.org/index.php/AAAI/article/view/35500) (2025.04) [![abs](https://img.shields.io/badge/abs-2025.04-b31b1b.svg)](https://ojs.aaai.org/index.php/AAAI/article/view/35500) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/yangheng/OmniGenome-186M)
 
   > Introduces OmniGenome (52M/186M parameters), a structure-aware RNA model pre-trained on sequence-structure pairs from the OneKP dataset, aligning RNA sequences with their secondary structures for improved downstream predictions.
+
+- **UltraGen** — [Decoding the RNA binding systems by UltraGen](https://doi.org/10.21203/rs.3.rs-4461517/v2) (2025.05) [![abs](https://img.shields.io/badge/abs-2025.05-b31b1b.svg)](https://doi.org/10.21203/rs.3.rs-4461517/v2)
+
+  > Presents UltraGen, a 33.5M-parameter BERT-style encoder pre-trained with motif-level span masking and rotary position embeddings on the UltraSelex corpus of over 10M in vitro-synthesized RNA sequences, transferring zero-shot to RNA interaction tasks including virus tropism classification, tissue-specific expression and protein-binding affinity ranking.
 
 - **StructRFM** — [StructRFM: Structure-guided RNA Foundation Model](https://www.biorxiv.org/content/10.1101/2025.08.06.668731v1) (2025.08, preprint) [![abs](https://img.shields.io/badge/abs-2025.08-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2025.08.06.668731v1) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2025.08.06.668731v1) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/heqin-zhu/structRFM)
 
@@ -509,7 +513,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>General / Other RNA Models (4)</b></summary>
+<summary><b>General / Other RNA Models (5)</b></summary>
 
 - **Uni-RNA** — [Uni-RNA: Universal Pre-trained Models for RNA across Species](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) (2023.07, preprint) [![abs](https://img.shields.io/badge/abs-2023.07-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/ComDec/unirna_tf)
 
@@ -518,6 +522,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **LoRNA SH** — [A long-context RNA foundation model for predicting transcriptome architecture](https://doi.org/10.1101/2024.08.26.609813) (2024.08, preprint) [![abs](https://img.shields.io/badge/abs-2024.08-b31b1b.svg)](https://doi.org/10.1101/2024.08.26.609813) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.1101/2024.08.26.609813)
 
   > Introduces LoRNA SH, a StripedHyena-based long-context RNA foundation model trained on full-length transcriptome architecture data to predict isoform abundance, isoform structure, and variant effects.
+
+- **UltraGen** — [Decoding the RNA binding systems by UltraGen](https://doi.org/10.21203/rs.3.rs-4461517/v2) (2025.05) [![abs](https://img.shields.io/badge/abs-2025.05-b31b1b.svg)](https://doi.org/10.21203/rs.3.rs-4461517/v2)
+
+  > Presents UltraGen, a 33.5M-parameter BERT-style encoder pre-trained with motif-level span masking and rotary position embeddings on the UltraSelex corpus of over 10M in vitro-synthesized RNA sequences, transferring zero-shot to RNA interaction tasks including virus tropism classification, tissue-specific expression and protein-binding affinity ranking.
 
 - **RNALens** — [RNALens: A Multi-task RNA Foundation Model](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) (2025.07, preprint) [![abs](https://img.shields.io/badge/abs-2025.07-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/oomics/RNALens)
 
@@ -564,7 +572,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Encoder-only (BERT-family) (33)</b></summary>
+<summary><b>Encoder-only (BERT-family) (34)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -637,6 +645,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **OmniGenome** — [Bridging Sequence-Structure Alignment in RNA Foundation Models](https://ojs.aaai.org/index.php/AAAI/article/view/35500) (2025.04) [![abs](https://img.shields.io/badge/abs-2025.04-b31b1b.svg)](https://ojs.aaai.org/index.php/AAAI/article/view/35500) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/yangheng/OmniGenome-186M)
 
   > Introduces OmniGenome (52M/186M parameters), a structure-aware RNA model pre-trained on sequence-structure pairs from the OneKP dataset, aligning RNA sequences with their secondary structures for improved downstream predictions.
+
+- **UltraGen** — [Decoding the RNA binding systems by UltraGen](https://doi.org/10.21203/rs.3.rs-4461517/v2) (2025.05) [![abs](https://img.shields.io/badge/abs-2025.05-b31b1b.svg)](https://doi.org/10.21203/rs.3.rs-4461517/v2)
+
+  > Presents UltraGen, a 33.5M-parameter BERT-style encoder pre-trained with motif-level span masking and rotary position embeddings on the UltraSelex corpus of over 10M in vitro-synthesized RNA sequences, transferring zero-shot to RNA interaction tasks including virus tropism classification, tissue-specific expression and protein-binding affinity ranking.
 
 - **LucaOne** — [Generalized biological foundation model with unified nucleic acid and protein language](https://www.nature.com/articles/s42256-025-01044-4) (2025.06) [![abs](https://img.shields.io/badge/abs-2025.06-b31b1b.svg)](https://www.nature.com/articles/s42256-025-01044-4) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/LucaOne/LucaOneApp) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/LucaGroup/LucaOne-default-step36M)
 
@@ -810,7 +822,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Single Nucleotide Token (SNT) (30)</b></summary>
+<summary><b>Single Nucleotide Token (SNT) (31)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -883,6 +895,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **OmniGenome** — [Bridging Sequence-Structure Alignment in RNA Foundation Models](https://ojs.aaai.org/index.php/AAAI/article/view/35500) (2025.04) [![abs](https://img.shields.io/badge/abs-2025.04-b31b1b.svg)](https://ojs.aaai.org/index.php/AAAI/article/view/35500) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/yangheng/OmniGenome-186M)
 
   > Introduces OmniGenome (52M/186M parameters), a structure-aware RNA model pre-trained on sequence-structure pairs from the OneKP dataset, aligning RNA sequences with their secondary structures for improved downstream predictions.
+
+- **UltraGen** — [Decoding the RNA binding systems by UltraGen](https://doi.org/10.21203/rs.3.rs-4461517/v2) (2025.05) [![abs](https://img.shields.io/badge/abs-2025.05-b31b1b.svg)](https://doi.org/10.21203/rs.3.rs-4461517/v2)
+
+  > Presents UltraGen, a 33.5M-parameter BERT-style encoder pre-trained with motif-level span masking and rotary position embeddings on the UltraSelex corpus of over 10M in vitro-synthesized RNA sequences, transferring zero-shot to RNA interaction tasks including virus tropism classification, tissue-specific expression and protein-binding affinity ranking.
 
 - **LucaOne** — [Generalized biological foundation model with unified nucleic acid and protein language](https://www.nature.com/articles/s42256-025-01044-4) (2025.06) [![abs](https://img.shields.io/badge/abs-2025.06-b31b1b.svg)](https://www.nature.com/articles/s42256-025-01044-4) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/LucaOne/LucaOneApp) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/LucaGroup/LucaOne-default-step36M)
 
@@ -1253,6 +1269,7 @@ General-purpose RNA models covering multiple RNA types.
 |:------|:------|:-----:|:----:|:----:|:-------------|:-------|:------------------|:-------------|
 | <nobr>**Uni-RNA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1)</nobr> | <nobr>[Code](https://github.com/ComDec/unirna_tf)</nobr> | <nobr>2023.07<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>400M</nobr> | <nobr>RNAcentral + MG-RAST + MGnify (1B seqs)</nobr> | <nobr>SNT</nobr> |
 | <nobr>**LoRNA SH**</nobr> | <nobr>Specialized RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.1101/2024.08.26.609813)</nobr> | - | <nobr>2024.08<br><sub>preprint</sub></nobr> | <nobr>Hybrid (StripedHyena)</nobr> | <nobr>6.5M</nobr> | <nobr>Full-length transcriptome architecture data</nobr> | <nobr>Specialized nt + region</nobr> |
+| <nobr>**UltraGen**</nobr> | <nobr>Specialized RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.21203/rs.3.rs-4461517/v2)</nobr> | - | <nobr>2025.05</nobr> | <nobr>Encoder-only</nobr> | <nobr>33.5M</nobr> | <nobr>UltraSelex (10M in vitro-synthesized RNA seqs)</nobr> | <nobr>SNT</nobr> |
 | <nobr>**RNALens**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1)</nobr> | <nobr>[Code](https://github.com/oomics/RNALens)</nobr> | <nobr>2025.07<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>469M</nobr> | <nobr>Multispecies genomic + 5'UTR sequences</nobr> | <nobr>BPE</nobr> |
 | <nobr>**RIBOSPAN**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://arxiv.org/abs/2608.22849v2)</nobr> | <nobr>[Code](https://github.com/GAIR-NLP/RIBOSPAN-FM)</nobr> | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>1.61B</nobr> | <nobr>RNAcentral v26 + Ensembl (67.6M seqs, 85.7B nt)</nobr> | <nobr>SNT</nobr> |
 

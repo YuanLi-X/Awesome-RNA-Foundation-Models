@@ -872,3 +872,23 @@
   params: 71M
   pretraining_data: CaLM/ENA (8.8M CDS, 1544 organisms)
   table_tokenization: Codon-level
+- name: UltraGen
+  title: Decoding the RNA binding systems by UltraGen
+  paper_url: https://doi.org/10.21203/rs.3.rs-4461517/v2
+  date: '2025.05'
+  timeline_date: '2024.07'
+  timeline_url: https://doi.org/10.21203/rs.3.rs-4461517/v1
+  github_url: null
+  hf_url: null
+  scope: specialized_rna_fm
+  category: General RNA FM
+  abstract: Presents UltraGen, a 33.5M-parameter BERT-style encoder pre-trained with motif-level span masking and rotary
+    position embeddings on the UltraSelex corpus of over 10M in vitro-synthesized RNA sequences, transferring zero-shot to
+    RNA interaction tasks including virus tropism classification, tissue-specific expression and protein-binding affinity
+    ranking.
+  architecture: Encoder-only
+  tokenization: SNT
+  table_architecture: Encoder-only
+  params: 33.5M
+  pretraining_data: UltraSelex (10M in vitro-synthesized RNA seqs)
+  table_tokenization: SNT

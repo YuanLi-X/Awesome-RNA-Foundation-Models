@@ -124,3 +124,9 @@
   reason: Supervised CNN classifier trained on labelled miRNA-target pairs from miRBench with no self-supervised
     pretraining corpus, so it carries no RNA sequence training signal; it was auto-classified into papers.yaml on
     2026-05-20 without review.
+- name: Nucleotide Transformer
+  title: 'Nucleotide Transformer: building and evaluating robust foundation models for human genomics'
+  paper_url: https://www.nature.com/articles/s41592-024-02523-z
+  date: '2024.11'
+  reason: DNA foundation model pre-trained on human and multi-species genomic sequences, so it falls outside the RNA
+    sequence scope of this list despite being cited alongside RNA models in review articles.
