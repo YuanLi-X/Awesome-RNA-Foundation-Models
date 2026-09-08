@@ -823,21 +823,19 @@
   title: 'RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling'
   paper_url: https://arxiv.org/abs/2608.22849v2
   date: '2026.08'
-  github_url: null
-  hf_url: null
+  github_url: https://github.com/GAIR-NLP/RIBOSPAN-FM
+  hf_url: https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM
   scope: core_rna_fm
-  category: mRNA/CDS FM
-  abstract: Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA
-    foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
-  architecture: Specialized
-  tokenization: Codon
-  table_architecture: Specialized
-  params: '-'
-  pretraining_data: '-'
-  table_tokenization: Codon-level
-  review_status: auto_classified
-  discovered_at: '2026-09-05'
-  timeline_url: https://arxiv.org/abs/2608.22849v2
+  category: General RNA FM
+  abstract: Presents RIBOSPAN, a 1.61B-parameter bidirectional Transformer encoder pre-trained with two-stage masked
+    language modeling on 67.6M RNA sequences (85.7B nucleotides) drawn from RNAcentral and Ensembl, using RoPE and a
+    native 10,240-nt context so full-length transcripts are modelled at single-nucleotide resolution.
+  architecture: Encoder-only
+  tokenization: SNT
+  table_architecture: Encoder-only
+  params: 1.61B
+  pretraining_data: RNAcentral v26 + Ensembl (67.6M seqs, 85.7B nt)
+  table_tokenization: SNT
 - name: NucleicBERT
   title: NucleicBERT interprets RNA sequence space through self-supervised language modelling
   paper_url: https://www.nature.com/articles/s42256-026-01295-9

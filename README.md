@@ -146,9 +146,9 @@ Primary contribution is a reusable RNA or mRNA sequence foundation model pre-tra
 
   > Introduces EVA, a Mixture-of-Experts decoder model for long-context RNA sequence generation, trained on 114M+ full-length RNA sequences for generating diverse functional RNA molecules at unprecedented lengths.
 
-- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
+- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/GAIR-NLP/RIBOSPAN-FM) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM)
 
-  > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
+  > Presents RIBOSPAN, a 1.61B-parameter bidirectional Transformer encoder pre-trained with two-stage masked language modeling on 67.6M RNA sequences (85.7B nucleotides) drawn from RNAcentral and Ensembl, using RoPE and a native 10,240-nt context so full-length transcripts are modelled at single-nucleotide resolution.
 
 - **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
 
@@ -376,7 +376,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>mRNA / CDS Sequence Models (13)</b></summary>
+<summary><b>mRNA / CDS Sequence Models (12)</b></summary>
 
 - **GenSLM** — [GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics](https://doi.org/10.1177/10943420231201154) (2023.11) [![abs](https://img.shields.io/badge/abs-2023.11-b31b1b.svg)](https://doi.org/10.1177/10943420231201154)
 
@@ -421,10 +421,6 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **NUWA** — [Large mRNA language foundation modeling with NUWA for unified sequence perception and generation](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) (2026.02, preprint) [![abs](https://img.shields.io/badge/abs-2026.02-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/zysxmu/NUWA)
 
   > Proposes NUWA, a large mRNA foundation model pre-trained on 115M multi-species coding sequences for unified mRNA sequence perception and generation.
-
-- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
-
-  > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
 
 - **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
 
@@ -513,7 +509,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>General / Other RNA Models (3)</b></summary>
+<summary><b>General / Other RNA Models (4)</b></summary>
 
 - **Uni-RNA** — [Uni-RNA: Universal Pre-trained Models for RNA across Species](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) (2023.07, preprint) [![abs](https://img.shields.io/badge/abs-2023.07-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/ComDec/unirna_tf)
 
@@ -526,6 +522,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **RNALens** — [RNALens: A Multi-task RNA Foundation Model](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) (2025.07, preprint) [![abs](https://img.shields.io/badge/abs-2025.07-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/oomics/RNALens)
 
   > Introduces RNALens, a 469M-parameter multi-task RNA foundation model pre-trained on multispecies genomic and 5'UTR sequences using BPE tokenization, supporting diverse RNA analysis tasks within a unified framework.
+
+- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/GAIR-NLP/RIBOSPAN-FM) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM)
+
+  > Presents RIBOSPAN, a 1.61B-parameter bidirectional Transformer encoder pre-trained with two-stage masked language modeling on 67.6M RNA sequences (85.7B nucleotides) drawn from RNAcentral and Ensembl, using RoPE and a native 10,240-nt context so full-length transcripts are modelled at single-nucleotide resolution.
 
 </details>
 
@@ -564,7 +564,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Encoder-only (BERT-family) (32)</b></summary>
+<summary><b>Encoder-only (BERT-family) (33)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -690,6 +690,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 
   > Proposes RNAElectra, applying the ELECTRA-style replaced token detection pre-training objective to RNA sequences, offering more sample-efficient pre-training compared to masked language modeling approaches.
 
+- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/GAIR-NLP/RIBOSPAN-FM) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM)
+
+  > Presents RIBOSPAN, a 1.61B-parameter bidirectional Transformer encoder pre-trained with two-stage masked language modeling on 67.6M RNA sequences (85.7B nucleotides) drawn from RNAcentral and Ensembl, using RoPE and a native 10,240-nt context so full-length transcripts are modelled at single-nucleotide resolution.
+
 - **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
 
   > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
@@ -784,7 +788,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>Specialized (Diffusion, MoE, GNN, Multimodal) (3)</b></summary>
+<summary><b>Specialized (Diffusion, MoE, GNN, Multimodal) (2)</b></summary>
 
 - **RNAGenesis** — [RNAGenesis: A Generalist Foundation Model for Functional RNA Therapeutics](https://www.biorxiv.org/content/10.1101/2024.12.30.630826v2) (2024.12, preprint) [![abs](https://img.shields.io/badge/abs-2024.12-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2024.12.30.630826v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2024.12.30.630826v2) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/Zaixi/RNAGenesis)
 
@@ -793,10 +797,6 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **EVA** — [A Long-Context Generative Foundation Model Deciphers RNA Design Principles](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) (2026.03, preprint) [![abs](https://img.shields.io/badge/abs-2026.03-b31b1b.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2)
 
   > Introduces EVA, a Mixture-of-Experts decoder model for long-context RNA sequence generation, trained on 114M+ full-length RNA sequences for generating diverse functional RNA molecules at unprecedented lengths.
-
-- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
-
-  > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
 
 </details>
 
@@ -810,7 +810,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 <blockquote>
 
 <details open>
-<summary><b>Single Nucleotide Token (SNT) (29)</b></summary>
+<summary><b>Single Nucleotide Token (SNT) (30)</b></summary>
 
 - **RNABert** — [Informative RNA base embedding for RNA structural alignment and clustering by deep representation learning](https://doi.org/10.1093/nargab/lqac012) (2022.01) [![abs](https://img.shields.io/badge/abs-2022.01-b31b1b.svg)](https://doi.org/10.1093/nargab/lqac012) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/mana438/RNABERT)
 
@@ -924,6 +924,10 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 
   > Introduces Orthrus, a Mamba-based mature RNA foundation model using contrastive learning on transcript isoforms and cross-species orthologs to learn evolutionary and functional RNA representations.
 
+- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/GAIR-NLP/RIBOSPAN-FM) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM)
+
+  > Presents RIBOSPAN, a 1.61B-parameter bidirectional Transformer encoder pre-trained with two-stage masked language modeling on 67.6M RNA sequences (85.7B nucleotides) drawn from RNAcentral and Ensembl, using RoPE and a native 10,240-nt context so full-length transcripts are modelled at single-nucleotide resolution.
+
 - **NucleicBERT** — [NucleicBERT interprets RNA sequence space through self-supervised language modelling](https://www.nature.com/articles/s42256-026-01295-9) (2026.09) [![abs](https://img.shields.io/badge/abs-2026.09-b31b1b.svg)](https://www.nature.com/articles/s42256-026-01295-9) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/KIT-MBS/NucleicBERT)
 
   > Presents NucleicBERT, a 404M-parameter encoder pre-trained with masked language modeling on 30M non-coding RNA sequences from MARS, learning structural and functional organisation of RNA sequence space from single sequences without alignments or evolutionary information.
@@ -931,7 +935,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 </details>
 
 <details open>
-<summary><b>Codon-level Tokenization (12)</b></summary>
+<summary><b>Codon-level Tokenization (11)</b></summary>
 
 - **GenSLM** — [GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics](https://doi.org/10.1177/10943420231201154) (2023.11) [![abs](https://img.shields.io/badge/abs-2023.11-b31b1b.svg)](https://doi.org/10.1177/10943420231201154)
 
@@ -972,10 +976,6 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 - **NUWA** — [Large mRNA language foundation modeling with NUWA for unified sequence perception and generation](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) (2026.02, preprint) [![abs](https://img.shields.io/badge/abs-2026.02-b31b1b.svg)](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/zysxmu/NUWA)
 
   > Proposes NUWA, a large mRNA foundation model pre-trained on 115M multi-species coding sequences for unified mRNA sequence perception and generation.
-
-- **RIBOSPAN** — [RIBOSPAN: A Long-Context RNA Foundation Model for Versatile RNA Modeling](https://arxiv.org/abs/2608.22849v2) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://arxiv.org/abs/2608.22849v2) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://arxiv.org/abs/2608.22849v2)
-
-  > Full-length RNAs, particularly messenger RNAs, often exceed the context lengths used to pretrain existing RNA foundation models, limiting complete-transcript modeling at single-nucleotide resolution.
 
 - **CodonMamba** — [CodonMamba: a foundation model for programmable mRNA coding sequence design](https://doi.org/10.64898/2026.08.24.746601) (2026.08, preprint) [![abs](https://img.shields.io/badge/abs-2026.08-b31b1b.svg)](https://doi.org/10.64898/2026.08.24.746601) [![preprint](https://img.shields.io/badge/preprint-gray.svg)](https://doi.org/10.64898/2026.08.24.746601) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/meilanglang/CodonMamba) [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)](https://huggingface.co/langmei/CodonMamba)
 
@@ -1185,7 +1185,6 @@ Models focused on messenger RNA coding sequences or full mRNA sequences.
 | <nobr>**mRNA-GPT**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.64898/2025.12.22.695962v1)</nobr> | <nobr>[Code](https://github.com/ZHymLumine/mRNA-GPT/)</nobr> | <nobr>2025.12<br><sub>preprint</sub></nobr> | <nobr>Decoder-only</nobr> | <nobr>302M</nobr> | <nobr>NCBI CDS (80M bact. + 83M euk. + 2M arch.)</nobr> | <nobr>Codon / nucleotide</nobr> |
 | <nobr>**codonGPT**</nobr> | <nobr>Adapted / Derived RNA Models</nobr> | <nobr>[Paper](https://academic.oup.com/nar/article/53/22/gkaf1345/8384118)</nobr> | <nobr>[Code](https://github.com/NanilTx/codonGPT_pub)</nobr> | <nobr>2025.12</nobr> | <nobr>Decoder-only</nobr> | <nobr>GPT-2 based</nobr> | <nobr>Model-organism CDS (338K seqs)</nobr> | <nobr>Codon-level</nobr> |
 | <nobr>**NUWA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3)</nobr> | <nobr>[Code](https://github.com/zysxmu/NUWA)</nobr> | <nobr>2026.02<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | - | <nobr>Multi-species mRNA CDS (115M seqs)</nobr> | <nobr>Codon tokens</nobr> |
-| <nobr>**RIBOSPAN**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://arxiv.org/abs/2608.22849v2)</nobr> | - | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Specialized</nobr> | - | - | <nobr>Codon-level</nobr> |
 | <nobr>**CodonMamba**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.64898/2026.08.24.746601)</nobr> | <nobr>[Code](https://github.com/meilanglang/CodonMamba)</nobr> | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Hybrid (BiMamba)</nobr> | <nobr>71M</nobr> | <nobr>CaLM/ENA (8.8M CDS, 1544 organisms)</nobr> | <nobr>Codon-level</nobr> |
 
 </details>
@@ -1255,6 +1254,7 @@ General-purpose RNA models covering multiple RNA types.
 | <nobr>**Uni-RNA**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2023.07.11.548588v1)</nobr> | <nobr>[Code](https://github.com/ComDec/unirna_tf)</nobr> | <nobr>2023.07<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>400M</nobr> | <nobr>RNAcentral + MG-RAST + MGnify (1B seqs)</nobr> | <nobr>SNT</nobr> |
 | <nobr>**LoRNA SH**</nobr> | <nobr>Specialized RNA Foundation Models</nobr> | <nobr>[Paper](https://doi.org/10.1101/2024.08.26.609813)</nobr> | - | <nobr>2024.08<br><sub>preprint</sub></nobr> | <nobr>Hybrid (StripedHyena)</nobr> | <nobr>6.5M</nobr> | <nobr>Full-length transcriptome architecture data</nobr> | <nobr>Specialized nt + region</nobr> |
 | <nobr>**RNALens**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://www.biorxiv.org/content/10.1101/2025.07.20.665722v1)</nobr> | <nobr>[Code](https://github.com/oomics/RNALens)</nobr> | <nobr>2025.07<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>469M</nobr> | <nobr>Multispecies genomic + 5'UTR sequences</nobr> | <nobr>BPE</nobr> |
+| <nobr>**RIBOSPAN**</nobr> | <nobr>Core RNA Foundation Models</nobr> | <nobr>[Paper](https://arxiv.org/abs/2608.22849v2)</nobr> | <nobr>[Code](https://github.com/GAIR-NLP/RIBOSPAN-FM)</nobr> | <nobr>2026.08<br><sub>preprint</sub></nobr> | <nobr>Encoder-only</nobr> | <nobr>1.61B</nobr> | <nobr>RNAcentral v26 + Ensembl (67.6M seqs, 85.7B nt)</nobr> | <nobr>SNT</nobr> |
 
 </details>
 
