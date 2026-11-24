@@ -1,10 +1,30 @@
 # Awesome RNA Foundation Models
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re) [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/) [![PR's Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com) [![Last Update](https://img.shields.io/badge/Last_Update-2026.05-blue.svg)]()
+<p align="center"><a href="https://yuanli-x.github.io/awesome-rna-foundation-models/"><img src="assets/gel_hero.svg" width="100%" alt="RNA foundation models drawn as an electrophoresis gel: lanes are release years and band position is parameter count. Click to open the interactive site."></a></p>
 
-A curated, continuously updated catalog of **RNA sequence foundation models**, covering reusable RNA/mRNA/CDS/UTR sequence backbones and checkpoints, specialized RNA-family or structure-aware sequence models, adapted / derived RNA language models, and generative RNA sequence models.
+<p align="center"><b><a href="https://yuanli-x.github.io/awesome-rna-foundation-models/">Open the interactive site</a></b> &nbsp;|&nbsp; <a href="#paper-list">Paper list</a> &nbsp;|&nbsp; <a href="#detailed-tables">Detailed tables</a> &nbsp;|&nbsp; <a href="#contributing">Contribute</a></p>
+
+<p align="center"><a href="https://awesome.re"><img src="https://awesome.re/badge.svg" alt="Awesome"></a> <img src="https://img.shields.io/badge/models-54-FFB347?labelColor=140F3C" alt="54 models"> <img src="https://img.shields.io/badge/benchmarks-12-C9C1EE?labelColor=140F3C" alt="12 benchmarks"> <img src="https://img.shields.io/badge/literature_scan-daily-C9C1EE?labelColor=140F3C" alt="Literature scanned daily"> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-C9C1EE?labelColor=140F3C" alt="MIT license"></a></p>
+
+A curated, continuously updated catalog of **RNA sequence foundation models**: reusable RNA, mRNA, CDS and UTR backbones, specialized and structure-aware RNA models, adapted RNA language models, and generative RNA sequence models. A GitHub Action scans arXiv, bioRxiv and Crossref every day and opens a pull request for each new candidate; every parameter count, code link and weight link carries its source in `data/papers.yaml`.
+
+### Newest models
+
+| Model | First release | Params | Links |
+|:--|:--|:--|:--|
+| **RIBOSPAN** | Aug 2026 | 1.61B | [Paper](https://arxiv.org/abs/2608.22849v2) · [Code](https://github.com/GAIR-NLP/RIBOSPAN-FM) · [Weights](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM) |
+| **CodonMamba** | Aug 2026 | 71M | [Paper](https://doi.org/10.64898/2026.08.24.746601) · [Code](https://github.com/meilanglang/CodonMamba) · [Weights](https://huggingface.co/langmei/CodonMamba) |
+| **RNAret** | Mar 2026 | 12M | [Paper](https://www.nature.com/articles/s42003-026-09757-x) · [Code](https://github.com/DrBlackZJU/RNAret/) · [Weights](https://bis.zju.edu.cn/rnaret/download) |
+| **RNAElectra** | Mar 2026 | not reported | [Paper](https://doi.org/10.64898/2026.03.15.711950) |
+| **EVA** | Mar 2026 | 21M / 145M / 437M / 1.4B | [Paper](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) · [Code](https://github.com/GENTEL-lab/EVA) · [Weights](https://huggingface.co/GENTEL-Lab/EVA) |
+| **NUWA** | Feb 2026 | not reported | [Paper](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) · [Code](https://github.com/zysxmu/NUWA) · [Weights](https://drive.google.com/drive/folders/1dK33csJUkqmhdL4hfpDoFm6AQXozcuo0?usp=drive_link) |
+
+<details>
+<summary><b>Scope</b>: what counts as an RNA sequence foundation model here</summary>
 
 > **Scope.** Included model entries must introduce or release a reusable sequence model, backbone, or checkpoint whose pre-training / large-scale training corpus explicitly includes RNA, mRNA, CDS, UTR, transcript, ncRNA, RNA metagenomic, or RNA/transcript-derived sequence data, and must support embedding extraction, fine-tuning, generation, or broad transfer to RNA downstream tasks. Downstream-only predictors/designers, reverse-translation or inverse-folding pipelines, RNA 3D prediction systems, DNA/protein/multi-omics FMs with no explicit RNA/transcript sequence pre-training signal, expression-profile/RNA-seq feature models, protein-only models, single-cell foundation models, and non-model resources are excluded from model entries; benchmarks and surveys are listed separately.
+
+</details>
 
 ## Table of Contents
 
@@ -48,7 +68,7 @@ A survey list of RNA sequence foundation models and RNA-inclusive sequence found
 
 <blockquote>
 
-<details open>
+<details>
 <summary><b>View 1: Classified by Foundation-model Scope</b></summary>
 
 <blockquote>
@@ -301,7 +321,7 @@ The model is not RNA-only, but its pre-training corpus explicitly includes RNA /
 
 </details>
 
-<details open>
+<details>
 <summary><b>View 2: Classified by RNA / Data Focus</b></summary>
 
 <blockquote>
@@ -1368,4 +1388,4 @@ Contributions are welcome! If you find a missing RNA foundation model, benchmark
 **Metadata workflow**: confirmed entries live in `data/papers.yaml`, temporary discoveries go to `data/candidates.yaml`, and intentionally excluded items are tracked in `data/excluded.yaml`. A scheduled GitHub Action scans recent arXiv, bioRxiv, and Crossref metadata, auto-classifies promotable RNA-sequence or RNA-inclusive sequence foundation model candidates into draft `data/papers.yaml` records, regenerates `README.md` and `assets/model_timeline.svg`, and opens a review PR. After editing confirmed metadata, run `python generate_paper_list.py` and `python scripts/validate_papers.py`; CI also checks that generated README content is committed.
 
 
-*Last updated: May 2026*
+*Generated from `data/papers.yaml` by `generate_paper_list.py`.*

@@ -11,6 +11,7 @@ from collections import OrderedDict
 import yaml
 
 from scripts.render_model_timeline import render_timeline_svg
+from scripts.render_gel_hero import render as render_gel_hero
 
 # Model entries live in data/papers.yaml so the README source of truth is
 # structured data rather than Python tuples.
@@ -22,6 +23,10 @@ PAPERS_FILE = DATA_DIR / "papers.yaml"
 # COLA-Laboratory is the canonical repository for that link: the discovery bot
 # runs there, so its main branch always holds the newest timeline. Mirrors keep
 # pointing here on purpose rather than at whichever fork serves the README.
+# Public site built from docs/ by scripts/build_site.py (GitHub Pages). Point this at the
+# canonical repository's Pages URL when the site is published there.
+SITE_URL = "https://yuanli-x.github.io/awesome-rna-foundation-models/"
+
 TIMELINE_INTERACTIVE_BASE_URL = "https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets"
 
 
@@ -565,7 +570,7 @@ lines.append("")
 
 # --- View 1: By foundation-model scope ---
 scope_groups = group_papers_by_scope(papers)
-lines.append('<details open>')
+lines.append('<details>')
 lines.append('<summary><b>View 1: Classified by Foundation-model Scope</b></summary>')
 lines.append("")
 lines.append("<blockquote>")
@@ -578,7 +583,7 @@ lines.append("")
 
 # --- View 2: By RNA / data focus ---
 rna_groups = group_papers(papers, 6, rna_type_labels, rna_type_order)
-lines.append('<details open>')
+lines.append('<details>')
 lines.append('<summary><b>View 2: Classified by RNA / Data Focus</b></summary>')
 lines.append("")
 lines.append("<blockquote>")
@@ -806,6 +811,54 @@ if "- [Model Timeline](#model-timeline)" not in new_readme:
     )
 new_readme = new_readme.replace("\n---\n## Paper List", "\n---\n\n## Paper List")
 new_readme = new_readme.replace("\n---\n## Model Timeline", "\n---\n\n## Model Timeline")
+
+
+# ---- README hero: gel image, links, live counts and newest models (rebuilt every run) ----
+render_gel_hero()
+_records = yaml.safe_load(PAPERS_FILE.read_text(encoding="utf-8")) or []
+_MON = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+_newest = sorted(_records, key=lambda r: (r.get("timeline_date") or r["date"], r["name"]), reverse=True)[:6]
+def _links(r):
+    out = [f"[Paper]({r['paper_url']})"]
+    if r.get("github_url"):
+        out.append(f"[Code]({r['github_url']})")
+    if r.get("hf_url") or r.get("weights_url"):
+        out.append(f"[Weights]({r.get('hf_url') or r.get('weights_url')})")
+    return " · ".join(out)
+_rows = "\n".join(
+    f"| **{r['name']}** | {_MON[int((r.get('timeline_date') or r['date'])[5:7]) - 1]} {(r.get('timeline_date') or r['date'])[:4]} "
+    f"| {r.get('params') if r.get('params') not in (None, '-') else 'not reported'} | {_links(r)} |"
+    for r in _newest)
+_scope = re.search(r"> \*\*Scope\.\*\* (.*?)\n", new_readme)
+_scope_text = _scope.group(1) if _scope else ""
+hero = f"""# Awesome RNA Foundation Models
+
+<p align="center"><a href="{SITE_URL}"><img src="assets/gel_hero.svg" width="100%" alt="RNA foundation models drawn as an electrophoresis gel: lanes are release years and band position is parameter count. Click to open the interactive site."></a></p>
+
+<p align="center"><b><a href="{SITE_URL}">Open the interactive site</a></b> &nbsp;|&nbsp; <a href="#paper-list">Paper list</a> &nbsp;|&nbsp; <a href="#detailed-tables">Detailed tables</a> &nbsp;|&nbsp; <a href="#contributing">Contribute</a></p>
+
+<p align="center"><a href="https://awesome.re"><img src="https://awesome.re/badge.svg" alt="Awesome"></a> <img src="https://img.shields.io/badge/models-{len(papers)}-FFB347?labelColor=140F3C" alt="{len(papers)} models"> <img src="https://img.shields.io/badge/benchmarks-{len(benchmarks)}-C9C1EE?labelColor=140F3C" alt="{len(benchmarks)} benchmarks"> <img src="https://img.shields.io/badge/literature_scan-daily-C9C1EE?labelColor=140F3C" alt="Literature scanned daily"> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-C9C1EE?labelColor=140F3C" alt="MIT license"></a></p>
+
+A curated, continuously updated catalog of **RNA sequence foundation models**: reusable RNA, mRNA, CDS and UTR backbones, specialized and structure-aware RNA models, adapted RNA language models, and generative RNA sequence models. A GitHub Action scans arXiv, bioRxiv and Crossref every day and opens a pull request for each new candidate; every parameter count, code link and weight link carries its source in `data/papers.yaml`.
+
+### Newest models
+
+| Model | First release | Params | Links |
+|:--|:--|:--|:--|
+{_rows}
+
+<details>
+<summary><b>Scope</b>: what counts as an RNA sequence foundation model here</summary>
+
+> **Scope.** {_scope_text}
+
+</details>
+
+"""
+_toc = new_readme.find("## Table of Contents")
+if _toc != -1:
+    new_readme = hero + new_readme[_toc:]
+new_readme = re.sub(r"\*Last updated: [^*]*\*", "*Generated from `data/papers.yaml` by `generate_paper_list.py`.*", new_readme)
 
 with open("README.md", "w", encoding="utf-8") as f:
     f.write(new_readme)
