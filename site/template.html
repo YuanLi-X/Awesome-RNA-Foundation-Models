@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Awesome RNA Foundation Models</title>
+<meta name="description" content="A curated, daily-checked catalog of RNA sequence foundation models, drawn as an electrophoresis gel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE   a lab instrument printout: exact, calm, one glowing figure
+   IDEA    the catalog behaves like an agarose gel under a transilluminator
+   PICTURE lanes = release year, migration = parameter count, ladder = scale; bands run on load
+   COLOUR  UV-indigo gel field, amber band glow, pale lavender bench paper below the fold
+   TYPE    IBM Plex Sans Condensed for figure labels and headings, IBM Plex Sans for reading
+   LAYOUT  dark figure band (title left, gel right) -> light explorer -> resources -> dark footer */
+:root{
+  --field:#140F3C; --field-2:#211A66; --field-line:#3F36A3; --well:#0B0726;
+  --glow:#FFB347; --glow-core:#FFE6BF; --ladder:#E7E1FF; --on-field:#C9C1EE; --on-field-dim:#8E86C6;
+  --paper:#F4F2F8; --card:#FFFFFF; --ink:#1A1540; --muted:#5D5779; --rule:#DCD7EA; --hover:#EDEAF6;
+  --focus:#FFB347;
+  --cond:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,18px)}
+
+/* ---------- figure band ---------- */
+.field{background:radial-gradient(120% 90% at 70% 40%,var(--field-2) 0%,var(--field) 60%);color:var(--on-field);position:relative;isolation:isolate}
+.field::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.18;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:600 16px var(--cond);color:var(--glow-core)}
+.top nav{display:flex;flex-wrap:wrap;gap:6px 22px;font:500 15px var(--cond)}
+.top nav a{text-decoration:none;color:var(--on-field)}
+.top nav a:hover{color:var(--glow-core)}
+.figure{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,9fr);gap:clamp(20px,3vw,44px);padding:18px 0 34px;align-items:start}
+.figure h1{font:700 clamp(40px,5.4vw,68px)/1 var(--cond);letter-spacing:-.015em;color:var(--glow-core);margin:6px 0 26px;text-wrap:balance}
+.legend p{margin:0 0 14px;font:16px/1.55 var(--cond);max-width:42ch}
+.legend b{color:var(--glow-core);font-weight:700}
+.legend .meta{color:var(--on-field-dim);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;border:1px solid var(--field-line);background:rgba(11,7,38,.45);color:var(--glow-core);
+  font:500 15px var(--cond);padding:6px 12px;border-radius:6px;cursor:pointer}
+.chip i{width:18px;height:5px;border-radius:2px;background:var(--glow);box-shadow:0 0 8px var(--glow)}
+.chip small{color:var(--on-field-dim);font-size:14px}
+.chip[aria-pressed="false"]{color:var(--on-field-dim);background:transparent}
+.chip[aria-pressed="false"] i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--on-field-dim)}
+.chip:hover{border-color:var(--on-field)}
+.gel-box{position:relative}
+#gel{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
+#gel .band{cursor:pointer;transition:opacity .25s}
+#gel .band.off{opacity:.1}
+#gel .lbl{transition:opacity .25s}
+#gel .lbl.off{opacity:.25}
+#gel .band:focus{outline:none}
+#gel .band:focus rect.b,#gel .band:hover rect.b{stroke:#fff;stroke-width:1.2}
+@media (prefers-reduced-motion:no-preference){
+  #gel.run .band{animation:run 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--l) * 90ms + 200ms)}
+  #gel.run .smear{animation:fadein 1.2s ease both;animation-delay:1.2s}
+}
+@keyframes run{from{transform:translateY(var(--dy));opacity:.2}to{transform:none;opacity:1}}
+@keyframes fadein{from{opacity:0}}
+.tip{position:absolute;z-index:5;pointer-events:none;min-width:170px;max-width:260px;background:var(--well);color:var(--glow-core);border:1px solid var(--field-line);
+  border-radius:6px;padding:9px 11px;font:14px/1.35 var(--cond);opacity:0;transform:translate(-50%,calc(-100% - 12px));transition:opacity .12s}
+.tip.on{opacity:1}
+.tip b{display:block;font-size:16px}
+.tip span{color:var(--on-field)}
+.tip .more{display:block;margin-top:4px;color:var(--on-field-dim);font-size:13px}
+
+/* ---------- light sections ---------- */
+section.band-s{padding:clamp(40px,6vw,72px) 0 0}
+h2{font:700 clamp(30px,3.4vw,42px)/1.05 var(--cond);letter-spacing:-.01em;margin:0 0 8px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 22px;max-width:68ch}
+
+.newest{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));border-top:2px solid var(--ink)}
+.newest a{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;text-decoration:none;padding:15px 18px 16px 0;border-bottom:1px solid var(--rule)}
+.newest .bd{grid-row:span 3;width:26px;height:7px;margin-top:10px;border-radius:2px;background:var(--glow);box-shadow:0 0 0 1px #E59A2E inset}
+.newest .nm{font:700 21px/1.15 var(--cond)}
+.newest .d{color:var(--muted);font-size:13.5px}
+.newest .t{font-size:14px;line-height:1.45;max-height:2.9em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.newest a:hover .nm{text-decoration:underline;text-underline-offset:3px}
+
+.controls{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.controls label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--muted)}
+.controls input,.controls select{font:16px var(--body);color:var(--ink);background:var(--card);border:1.5px solid var(--rule);border-radius:7px;padding:9px 11px;min-height:44px;width:100%}
+.controls input:focus,.controls select:focus{border-color:var(--ink);outline:none}
+.row2{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-bottom:14px;font-size:15px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:500 14.5px var(--cond);min-height:36px;padding:6px 12px;border-radius:6px;border:1.5px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="false"]{background:transparent;color:var(--muted)}
+.seg button small{color:var(--muted)}
+.check{display:inline-flex;align-items:center;gap:8px;cursor:pointer;min-height:36px}
+.check input{accent-color:var(--ink);width:17px;height:17px;margin:0}
+.count{margin-left:auto;color:var(--muted)}
+.linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--ink);text-decoration:underline;cursor:pointer}
+
+.tbl{background:var(--card);border-radius:10px;box-shadow:0 0 0 1px var(--rule);overflow:hidden}
+table.models{width:100%;border-collapse:collapse;table-layout:fixed}
+.models th{text-align:left;font:600 14px var(--cond);color:var(--muted);padding:11px 12px;border-bottom:1.5px solid var(--rule);white-space:nowrap;background:var(--card)}
+.models th button{all:unset;cursor:pointer}
+.models th button:focus-visible{outline:2px solid var(--ink)}
+.models th[aria-sort] button::after{content:" ↓";color:var(--ink)}
+.models th[aria-sort="ascending"] button::after{content:" ↑"}
+.models th:nth-child(1){width:27%}.models th:nth-child(2){width:10%}.models th:nth-child(3){width:10%}
+.models th:nth-child(4){width:11%}.models th:nth-child(5){width:13%}.models th:nth-child(6){width:13%}.models th:nth-child(7){width:16%}
+.models td{padding:12px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:14.5px}
+.models tr.m{cursor:pointer}
+.models tr.m:hover td{background:var(--hover)}
+.models tr.m.open td{background:var(--hover);border-bottom-color:transparent}
+.m .nm button{all:unset;cursor:pointer;font:700 18px/1.15 var(--cond)}
+.m .nm button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.m .ttl{color:var(--muted);font-size:13px;margin-top:3px;max-width:44ch;line-height:1.4}
+.m .st{display:block;color:var(--muted);font-size:12.5px}
+.scope{display:inline-block;font:500 13px var(--cond);padding:1px 7px;border:1px solid var(--rule);border-radius:4px;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.mig{display:block;position:relative;width:76px;height:8px;margin-top:6px;border-radius:2px;background:linear-gradient(90deg,#E9E5F4,#D8D2EA)}
+.mig i{position:absolute;top:1px;width:12px;height:6px;margin-left:-6px;border-radius:2px;background:var(--glow);box-shadow:0 0 0 1px #D98A1C inset}
+.mig.none{background:repeating-linear-gradient(90deg,#E9E5F4 0 4px,transparent 4px 7px)}
+.links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px;white-space:nowrap}
+.links a{text-underline-offset:3px}
+.links .na{color:#ABA5C2}
+tr.detail td{background:var(--hover);padding:2px 12px 22px 12px}
+.detail .grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px}
+.detail p{margin:0;max-width:68ch}
+.detail dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:14px}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0}
+.detail .ev{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
+.detail .ev b{font-weight:600;color:var(--ink)}
+.empty{padding:36px 12px;text-align:center;color:var(--muted)}
+
+.two{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(28px,4vw,52px)}
+.res{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.res li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;padding:13px 0;border-bottom:1px solid var(--rule)}
+.res .d{color:var(--muted);font:500 14px var(--cond);padding-top:3px;white-space:nowrap}
+.res a.n{font:700 18px/1.2 var(--cond);text-decoration:none}
+.res a.n:hover{text-decoration:underline}
+.res .t{font-size:14px;color:var(--muted);margin-top:2px}
+.res .code{font-size:13.5px;margin-left:8px}
+
+footer{margin-top:clamp(56px,8vw,96px)}
+footer .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px;padding:48px 0 20px}
+footer h3{font:700 20px var(--cond);color:var(--glow-core);margin:0 0 8px}
+footer p{margin:0;font-size:15px;max-width:42ch}
+footer a{color:var(--glow-core)}
+footer code{color:var(--glow-core)}
+footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
+
+@media (max-width:900px){
+  .figure{grid-template-columns:1fr;gap:6px}
+  .figure h1{margin-bottom:16px}
+  .controls{grid-template-columns:1fr 1fr}
+  .controls label:first-child{grid-column:1/-1}
+  .two,footer .cols{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .top nav a.opt{display:none}
+  .count{margin-left:0;width:100%}
+  .controls{grid-template-columns:1fr}
+  table.models thead{display:none}
+  table.models,.models tbody,.models tr,.models td{display:block;width:100%}
+  .models tr.m td{border:0;padding:3px 14px}
+  .models tr.m td:first-child{padding-top:14px}
+  .models tr.m td:last-child{padding-bottom:14px;border-bottom:1px solid var(--rule)}
+  .models td[data-l]{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:8px}
+  .models td[data-l]::before{content:attr(data-l);color:var(--muted);font-size:13px}
+  .mig{display:none}
+  tr.detail td{padding:4px 14px 18px}
+  .detail .grid{grid-template-columns:1fr;gap:14px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="field">
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="#">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="#211A66" stroke="#3F36A3"/><rect x="5" y="5" width="5" height="2" fill="#0B0726"/><rect x="14" y="5" width="5" height="2" fill="#0B0726"/><rect x="5" y="10" width="5" height="2" rx="1" fill="#FFB347"/><rect x="14" y="14" width="5" height="2" rx="1" fill="#FFB347"/><rect x="5" y="17" width="5" height="2" rx="1" fill="#FFB347" opacity=".7"/></svg>
+        Awesome RNA Foundation Models
+      </a>
+      <nav aria-label="Sections"><a class="opt" href="#models">Models</a><a class="opt" href="#benchmarks">Benchmarks</a><a class="opt" href="#surveys">Surveys</a><a id="gh-link" href="#">GitHub</a></nav>
+    </header>
+    <div class="figure">
+      <div class="legend">
+        <h1>RNA foundation models, run on a gel.</h1>
+        <p><b>Fig. 1</b> Each lane is a year of first public release and each band is one model. Larger models migrate less, so they sit near the wells; the ladder marks parameter count from 1M to 10B. Brighter bands hold several models of a similar size, and the smear at the bottom is models that report no size.</p>
+        <p class="meta" id="meta"></p>
+        <div class="chips" id="chips" aria-label="Show models by scope"></div>
+      </div>
+      <div class="gel-box" id="gel-box">
+        <svg id="gel" role="img" aria-labelledby="gel-title"><title id="gel-title">Gel of RNA foundation models by release year and parameter count</title></svg>
+        <div class="tip" id="tip" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="band-s" aria-labelledby="h-new">
+    <h2 id="h-new">Newest on the gel</h2>
+    <p class="sub">The six most recent first releases in the catalog.</p>
+    <div class="newest" id="newest"></div>
+  </section>
+
+  <section class="band-s" id="models" aria-labelledby="h-models">
+    <h2 id="h-models">Browse the models</h2>
+    <p class="sub">Filters here also dim the bands on the gel. Open a row for the abstract, the pre-training data and the source of every figure.</p>
+    <div class="controls">
+      <label>Search<input id="q" type="search" placeholder="Model, paper title or dataset, e.g. RNAcentral" autocomplete="off"></label>
+      <label>RNA focus<select id="f-cat"></select></label>
+      <label>Architecture<select id="f-arch"></select></label>
+      <label>Tokenization<select id="f-tok"></select></label>
+    </div>
+    <div class="row2">
+      <div class="seg" id="seg" aria-label="Scope"></div>
+      <label class="check"><input type="checkbox" id="f-w"> Weights available</label>
+      <label class="check"><input type="checkbox" id="f-code"> Code available</label>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div class="tbl">
+      <table class="models">
+        <thead><tr>
+          <th scope="col" data-sort="name"><button>Model</button></th>
+          <th scope="col" data-sort="date"><button>Published</button></th>
+          <th scope="col">Scope</th>
+          <th scope="col">RNA focus</th>
+          <th scope="col">Architecture</th>
+          <th scope="col" data-sort="params"><button>Params</button></th>
+          <th scope="col">Links</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="band-s" aria-label="Benchmarks and surveys">
+    <div class="two">
+      <div id="benchmarks"><h2>Benchmarks</h2><p class="sub">Evaluation suites that test RNA or nucleotide foundation models.</p><ul class="res" id="bench"></ul></div>
+      <div id="surveys"><h2>Surveys</h2><p class="sub">Reviews that cover RNA language models.</p><ul class="res" id="surv"></ul></div>
+    </div>
+  </section>
+</main>
+
+<footer class="field">
+  <div class="wrap">
+    <div class="cols">
+      <div><h3>How the gel stays current</h3><p>A GitHub Action searches arXiv, bioRxiv and Crossref every day. New candidates are classified against the scope rules and opened as a pull request, and a maintainer reviews each one before it is merged.</p></div>
+      <div><h3>What counts as a model</h3><p>A reusable backbone or checkpoint whose pre-training corpus explicitly includes RNA-derived sequences, and that supports embeddings, fine-tuning or generation. Downstream-only predictors, 3D structure systems and single-cell models are out of scope.</p></div>
+      <div><h3>Missing a band?</h3><p>Open an issue with the paper link, or edit <code>data/papers.yaml</code> and send a pull request. <a id="issue-link" href="#">Suggest a model</a></p></div>
+    </div>
+    <p class="fine" id="fine"></p>
+  </div>
+</footer>
+
+<script type="application/json" id="site-data">/*__SITE_DATA__*/{}</script>
+<script>
+{
+const D = JSON.parse(document.getElementById('site-data').textContent);
+const M = D.models, SC = D.scopes;
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ym = s => { const [y,m] = s.split('.').map(Number); return y*12 + m - 1; };
+const fmtYM = s => { const [y,m] = s.split('.'); return `${MON[+m-1]} ${y}`; };
+const fmtISO = s => { const d = new Date(s + 'T00:00:00Z'); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
+const short = c => c.replace(/\s*FM$/, '');
+const lg = m => m.params_m ? Math.log10(m.params_m) : null;          // log10(params in millions)
+const LMIN = -0.4, LMAX = Math.log10(40000);                          // 0.4M .. 40B
+M.forEach((m,i) => { m.idx = i; m.id = 'm-' + m.name.toLowerCase().replace(/[^a-z0-9]+/g,'-'); });
+
+$('#gh-link').href = D.repo;
+$('#issue-link').href = D.repo + '/issues/new';
+const years = [...new Set(M.map(m => m.release.slice(0,4)))].sort();
+$('#meta').textContent = `${M.length} models since ${years[0]}, plus ${D.benchmarks.length} benchmarks and ${D.surveys.length} surveys. Rescanned daily; the catalog last changed on ${fmtISO(D.updated)}.`;
+$('#fine').innerHTML = `Generated from <a href="${esc(D.repo)}/blob/main/data/papers.yaml">data/papers.yaml</a> on every update. MIT licensed.`;
+
+/* ---------- state ---------- */
+const ALL = Object.keys(SC);
+const st = { scopes:new Set(ALL), q:'', cat:'', arch:'', tok:'', w:false, code:false, sort:'date', dir:-1, open:null };
+const pass = m => {
+  if (!st.scopes.has(m.scope)) return false;
+  if (st.cat && m.category !== st.cat) return false;
+  if (st.arch && m.arch !== st.arch) return false;
+  if (st.tok && m.token !== st.tok) return false;
+  if (st.w && !(m.hf || m.weights)) return false;
+  if (st.code && !m.github) return false;
+  if (st.q) {
+    const hay = [m.name, m.title, m.data, m.category, m.arch_detail, m.token_detail, m.abstract].join(' ').toLowerCase();
+    if (!st.q.split(/\s+/).every(w => hay.includes(w))) return false;
+  }
+  return true;
+};
+const toggleScope = k => {
+  if (st.scopes.has(k) && st.scopes.size === 1) st.scopes = new Set(ALL);
+  else if (st.scopes.size === ALL.length) st.scopes = new Set([k]);
+  else st.scopes.has(k) ? st.scopes.delete(k) : st.scopes.add(k);
+  update();
+};
+const cnt = k => M.filter(m => m.scope === k).length;
+$('#chips').innerHTML = ALL.map(k => `<button class="chip" data-scope="${k}" title="${esc(SC[k].desc)}"><i></i>${esc(SC[k].label)} <small>${cnt(k)}</small></button>`).join('');
+$('#seg').innerHTML = ALL.map(k => `<button data-scope="${k}" title="${esc(SC[k].desc)}">${esc(SC[k].label)} <small>${cnt(k)}</small></button>`).join('');
+document.querySelectorAll('[data-scope]').forEach(b => b.addEventListener('click', () => toggleScope(b.dataset.scope)));
+
+function fill(sel, key, label, fmt = x => x) {
+  const t = {}; M.forEach(m => t[m[key]] = (t[m[key]] || 0) + 1);
+  sel.innerHTML = `<option value="">${label}</option>` + Object.entries(t).sort((a,b) => b[1]-a[1]).map(([v,n]) => `<option value="${esc(v)}">${esc(fmt(v))} (${n})</option>`).join('');
+}
+fill($('#f-cat'), 'category', 'Any focus', short);
+fill($('#f-arch'), 'arch', 'Any architecture');
+fill($('#f-tok'), 'token', 'Any tokenization');
+$('#f-cat').onchange = e => { st.cat = e.target.value; update(); };
+$('#f-arch').onchange = e => { st.arch = e.target.value; update(); };
+$('#f-tok').onchange = e => { st.tok = e.target.value; update(); };
+$('#f-w').onchange = e => { st.w = e.target.checked; update(); };
+$('#f-code').onchange = e => { st.code = e.target.checked; update(); };
+let qt; $('#q').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { st.q = e.target.value.trim().toLowerCase(); update(); }, 120); });
+
+/* ---------- the gel ---------- */
+const svg = $('#gel'), box = $('#gel-box'), tip = $('#tip');
+let ran = false, geom = null;
+function drawGel() {
+  const W = box.clientWidth, narrow = W < 560;
+  const H = narrow ? 470 : Math.min(680, Math.max(520, W * .85));
+  const lanes = ['Ladder', ...years], pad = narrow ? 0 : 40;
+  const lw = (W - pad) / (lanes.length + .3), lx0 = i => i ? (i + .3) * lw : 0;   // ladder lane is 1.3 lanes wide
+  const top = 74, bottom = H - 86;
+  const yOf = l => top + (LMAX - Math.max(LMIN, l)) / (LMAX - LMIN) * (bottom - top);
+  const bw = Math.min(44, lw * (narrow ? .6 : .36)), room = lw - bw - 20, showLabels = room > 40;
+  geom = { yOf, lw, bw, top, bottom };
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
+  let s = `<defs>
+      <linearGradient id="gslab" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2187"/><stop offset="1" stop-color="#1B1560"/></linearGradient>
+      <filter id="glow" x="-40%" y="-400%" width="180%" height="900%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".5"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
+    </defs>
+    <rect x="0" y="28" width="${W}" height="${H - 28}" rx="10" fill="url(#gslab)" stroke="#3F36A3"/>`;
+  lanes.forEach((ln, i) => {
+    const x = lx0(i);
+    s += `<text x="${x + 10}" y="18" font-family="IBM Plex Sans Condensed, sans-serif" font-weight="${i ? 700 : 500}" font-size="15" fill="${i ? '#FFE6BF' : '#C9C1EE'}">${ln}</text>
+          <rect x="${x + 10}" y="44" width="${narrow ? bw : Math.min(lw - 20, bw + 34)}" height="15" rx="2" fill="#0B0726" stroke="#463DA8"/>`;
+  });
+  // ladder
+  const lx = 10;
+  [[0,'1M'],[1,'10M'],[2,'100M'],[3,'1B'],[4,'10B']].forEach(([l,t]) => {
+    const y = yOf(l);
+    s += `<rect x="${lx}" y="${y - 2.5}" width="${bw}" height="5" rx="2" fill="#E7E1FF" opacity=".75" filter="url(#glow)"/>
+          <text x="${lx + bw + 6}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="${narrow ? 11 : 12.5}" fill="#C9C1EE">${t}</text>`;
+  });
+  // bands
+  let lbl = '';
+  years.forEach((yr, j) => {
+    const x = lx0(j + 1) + 10, inLane = M.filter(m => m.release.startsWith(yr));
+    const sized = inLane.filter(m => m.params_m).sort((a,b) => lg(b) - lg(a));
+    let lastY = -99;
+    sized.forEach(m => {
+      const y = yOf(lg(m));
+      s += `<g class="band" data-i="${m.idx}" style="--dy:${(51 - y).toFixed(1)}px;--l:${j}" tabindex="0" role="button" aria-label="${esc(m.name)}, ${esc(m.params)} parameters, ${fmtYM(m.release)}">
+              <rect x="${x - 2}" y="${y - 7}" width="${bw + 4}" height="14" fill="transparent"/>
+              <rect class="b" x="${x}" y="${y - 3.5}" width="${bw}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"/></g>`;
+      const fits = j === years.length - 1 ? m.name.length * 5.7 < room + pad : m.name.length * 5.7 < room;
+      if (showLabels && fits && y - lastY > 12) { lbl += `<text class="lbl" data-i="${m.idx}" x="${x + bw + 7}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#FFD9A6" pointer-events="none">${esc(m.name)}</text>`; lastY = y; }
+    });
+    const nr = inLane.filter(m => !m.params_m);
+    if (nr.length) {
+      s += `<g class="band smear" data-lane="${yr}" tabindex="0" role="button" aria-label="${nr.length} models from ${yr} with no reported size">
+              <rect x="${x}" y="${bottom + 18}" width="${bw}" height="${26 + nr.length * 6}" rx="4" fill="url(#smear)"/></g>`;
+      if (showLabels) lbl += `<text x="${x + bw + 7}" y="${bottom + 38}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#A69DD6" pointer-events="none">${nr.length} unsized</text>`;
+    }
+  });
+  svg.innerHTML = `<title id="gel-title">Gel of RNA foundation models by release year and parameter count</title>` + s + lbl;
+  if (!ran) { svg.classList.add('run'); ran = true; setTimeout(() => svg.classList.remove('run'), 2600); }
+  paintGel();
+}
+function paintGel() {
+  svg.querySelectorAll('.band[data-i], .lbl').forEach(g => g.classList.toggle('off', !pass(M[+g.dataset.i])));
+  svg.querySelectorAll('.smear').forEach(g => g.classList.toggle('off', !M.some(m => !m.params_m && m.release.startsWith(g.dataset.lane) && pass(m))));
+}
+// all models that share a band (same lane, within a few pixels) are listed together
+function bandGroup(g) {
+  if (g.dataset.lane) return M.filter(m => !m.params_m && m.release.startsWith(g.dataset.lane));
+  const m = M[+g.dataset.i], y = geom.yOf(lg(m)), yr = m.release.slice(0,4);
+  return M.filter(o => o.params_m && o.release.startsWith(yr) && Math.abs(geom.yOf(lg(o)) - y) < 7).sort((a,b) => b.params_m - a.params_m);
+}
+function showTip(g) {
+  const grp = bandGroup(g).filter(pass), first = grp[0] || bandGroup(g)[0];
+  const r = g.getBoundingClientRect(), bx = box.getBoundingClientRect();
+  tip.innerHTML = g.dataset.lane
+    ? `<b>${grp.length} without a reported size</b><span>${grp.map(m => esc(m.name)).join(', ')}</span>`
+    : `<b>${esc(first.name)}</b><span>${esc(first.params)} parameters, ${fmtYM(first.release)}</span>${grp.length > 1 ? `<span class="more">Same band: ${grp.slice(1).map(m => esc(m.name)).join(', ')}</span>` : ''}`;
+  const half = 130, left = Math.min(Math.max(r.left - bx.left + r.width / 2, half), bx.width - half);
+  tip.style.left = left + 'px'; tip.style.top = (r.top - bx.top) + 'px'; tip.classList.add('on');
+}
+const hideTip = () => tip.classList.remove('on');
+function openBand(g) {
+  hideTip();
+  const grp = bandGroup(g);
+  if (g.dataset.lane || grp.length > 1) {          // several models: filter the explorer to them
+    reset(false); st.q = ''; st.only = new Set(grp.map(m => m.idx)); update();
+    document.getElementById('models').scrollIntoView({behavior: motion() ? 'smooth' : 'auto'});
+  } else reveal(grp[0]);
+}
+svg.addEventListener('pointerover', e => { const g = e.target.closest('.band'); if (g) showTip(g); });
+svg.addEventListener('pointerout', e => { if (e.target.closest('.band')) hideTip(); });
+svg.addEventListener('focusin', e => { const g = e.target.closest('.band'); if (g) showTip(g); });
+svg.addEventListener('focusout', hideTip);
+svg.addEventListener('click', e => { const g = e.target.closest('.band'); if (g) openBand(g); });
+svg.addEventListener('keydown', e => { const g = e.target.closest('.band'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openBand(g); } });
+const ro = new ResizeObserver(() => drawGel()); ro.observe(box);
+
+/* ---------- newest ---------- */
+$('#newest').innerHTML = [...M].sort((a,b) => ym(b.release) - ym(a.release) || a.name.localeCompare(b.name)).slice(0,6).map(m =>
+  `<a href="#${m.id}" data-i="${m.idx}"><span class="bd" aria-hidden="true"></span><span class="nm">${esc(m.name)}</span>
+   <span class="d">${fmtYM(m.release)}, ${esc(m.params || 'size not reported')}</span><span class="t">${esc(m.title)}</span></a>`).join('');
+$('#newest').addEventListener('click', e => { const a = e.target.closest('a'); if (a) { e.preventDefault(); reveal(M[+a.dataset.i]); } });
+
+/* ---------- table ---------- */
+const link = (u, t) => u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : `<span class="na">${t}</span>`;
+const mig = m => m.params_m ? `<span class="mig" aria-hidden="true"><i style="left:${((Math.max(LMIN, lg(m)) - LMIN) / (LMAX - LMIN) * 100).toFixed(1)}%"></i></span>` : `<span class="mig none" aria-hidden="true"></span>`;
+function rows() {
+  const list = M.filter(m => pass(m) && (!st.only || st.only.has(m.idx))).sort((a,b) => {
+    if (st.sort === 'name') return st.dir * a.name.localeCompare(b.name);
+    if (st.sort === 'params') return st.dir * ((a.params_m ?? -1) - (b.params_m ?? -1));
+    return st.dir * (ym(a.date) - ym(b.date) || a.name.localeCompare(b.name));
+  });
+  $('#count').innerHTML = st.only ? `${list.length} models from one band. <button class="linkbtn" id="clear-band">Show all</button>`
+    : list.length === M.length ? `All ${M.length} models` : `${list.length} of ${M.length} models`;
+  if (st.only) $('#clear-band').onclick = () => { st.only = null; update(); };
+  if (!list.length) { $('#rows').innerHTML = `<tr><td colspan="7" class="empty">No model matches these filters. <button class="linkbtn" id="reset">Clear all filters</button></td></tr>`; $('#reset').onclick = () => reset(true); return; }
+  $('#rows').innerHTML = list.map(m => {
+    const open = st.open === m.idx;
+    const main = `<tr class="m${open ? ' open' : ''}" id="${m.id}" data-i="${m.idx}">
+      <td><div class="nm"><button aria-expanded="${open}" aria-controls="${m.id}-d">${esc(m.name)}</button></div><div class="ttl">${esc(m.title)}</div></td>
+      <td data-l="Published" class="num">${fmtYM(m.date)}${m.status ? `<span class="st">${m.status}</span>` : ''}</td>
+      <td data-l="Scope"><span class="scope" title="${esc(SC[m.scope].long)}">${esc(SC[m.scope].label)}</span></td>
+      <td data-l="RNA focus">${esc(short(m.category))}</td>
+      <td data-l="Architecture">${esc(m.arch)}<span class="st">${esc(m.token)} tokens</span></td>
+      <td data-l="Params" class="num">${esc(m.params || 'not reported')}${mig(m)}</td>
+      <td data-l="Links"><div class="links">${link(m.url,'Paper')}${link(m.github,'Code')}${link(m.hf || m.weights, m.hf_port ? 'Weights*' : 'Weights')}</div></td></tr>`;
+    const det = open ? `<tr class="detail" id="${m.id}-d"><td colspan="7"><div class="grid"><p>${esc(m.abstract)}</p><dl>
+      <dt>Scope</dt><dd>${esc(SC[m.scope].long)}</dd>
+      <dt>Pre-training data</dt><dd>${esc(m.data || 'Not reported')}</dd>
+      <dt>Architecture</dt><dd>${esc(m.arch_detail)}</dd>
+      <dt>Tokenization</dt><dd>${esc(m.token_detail)}</dd>
+      ${m.release !== m.date ? `<dt>First release</dt><dd>${fmtYM(m.release)}</dd>` : ''}
+      ${m.hf && m.weights ? `<dt>Other weights</dt><dd>${link(m.weights, 'Official download')}</dd>` : ''}
+      ${m.hf_port ? `<dt>Weights note</dt><dd>Community port of the official checkpoint</dd>` : ''}
+      ${m.note ? `<dt>Availability</dt><dd>${esc(m.note)}</dd>` : ''}
+      ${Object.keys(m.evidence).length ? `<dt>Sources</dt><dd>${Object.entries(m.evidence).map(([k,v]) => `<span class="ev"><b>${esc(k.replace('_url','').replace(/_/g,' '))}</b>: ${esc(v)}</span>`).join('')}</dd>` : ''}
+      </dl></div></td></tr>` : '';
+    return main + det;
+  }).join('');
+}
+$('#rows').addEventListener('click', e => {
+  if (e.target.closest('a')) return;
+  const tr = e.target.closest('tr.m'); if (!tr) return;
+  const i = +tr.dataset.i; st.open = st.open === i ? null : i; rows();
+  document.querySelector(`#${M[i].id} button`)?.focus({preventScroll:true});
+});
+document.querySelectorAll('th[data-sort] button').forEach(b => b.addEventListener('click', () => {
+  const k = b.parentElement.dataset.sort; st.dir = st.sort === k ? -st.dir : (k === 'name' ? 1 : -1); st.sort = k; update();
+}));
+const motion = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
+function reset(redraw) {
+  st.scopes = new Set(ALL); st.q = st.cat = st.arch = st.tok = ''; st.w = st.code = false; st.only = null;
+  $('#q').value = ''; ['#f-cat','#f-arch','#f-tok'].forEach(s => $(s).value = ''); $('#f-w').checked = $('#f-code').checked = false;
+  if (redraw) update();
+}
+function reveal(m) {
+  if (!pass(m) || st.only) reset(false);
+  st.open = m.idx; update();
+  const el = document.getElementById(m.id);
+  el.scrollIntoView({behavior: motion() ? 'smooth' : 'auto', block:'center'});
+  el.querySelector('button').focus({preventScroll:true});
+}
+function update() {
+  document.querySelectorAll('[data-scope]').forEach(c => c.setAttribute('aria-pressed', st.scopes.has(c.dataset.scope)));
+  document.querySelectorAll('th[data-sort]').forEach(th => th.dataset.sort === st.sort ? th.setAttribute('aria-sort', st.dir > 0 ? 'ascending' : 'descending') : th.removeAttribute('aria-sort'));
+  if (geom) paintGel();
+  rows();
+}
+
+/* ---------- resources ---------- */
+const res = r => `<li><span class="d">${esc(r.date.replace('.', ' / '))}</span><div>
+  <a class="n" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>${r.github_url ? `<a class="code" href="${esc(r.github_url)}" target="_blank" rel="noopener">Code</a>` : ''}
+  <div class="t">${esc(r.title)}</div></div></li>`;
+$('#bench').innerHTML = D.benchmarks.map(res).join('');
+$('#surv').innerHTML = D.surveys.map(res).join('');
+
+update();
+}
+</script>
+</body>
+</html>

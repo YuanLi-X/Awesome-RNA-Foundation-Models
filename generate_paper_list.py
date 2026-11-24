@@ -181,8 +181,10 @@ def format_entry(name, title, paper_url, date, github_url, hf_url, abstract):
     line += f' [![abs](https://img.shields.io/badge/abs-{date}-b31b1b.svg)]({paper_url})'
     if status == "preprint":
         line += f' [![preprint](https://img.shields.io/badge/preprint-gray.svg)]({paper_url})'
-    if github_url:
+    if github_url and "github.com" in github_url:
         line += f' [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)]({github_url})'
+    elif github_url:
+        line += f' [![Code](https://img.shields.io/badge/Code-black)]({github_url})'
     if hf_url:
         line += f' [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97-HuggingFace-yellow)]({hf_url})'
     line += f'\n\n  > {abstract}\n'

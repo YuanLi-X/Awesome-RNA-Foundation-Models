@@ -44,11 +44,14 @@ jobs:
       - name: Validate metadata
         run: python scripts/validate_papers.py
 
+      - name: Rebuild website
+        run: python scripts/build_site.py
+
       - name: Create candidate update pull request
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -z "$(git status --porcelain data/papers.yaml data/candidates.yaml README.md assets/model_timeline.svg 'assets/model_timeline-*.svg')" ]; then
+          if [ -z "$(git status --porcelain data/papers.yaml data/candidates.yaml README.md docs/index.html assets/model_timeline.svg 'assets/model_timeline-*.svg')" ]; then
             echo "No model metadata, candidate, README, or timeline changes."
             exit 0
           fi
@@ -57,7 +60,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$UPDATE_BRANCH"
-          git add data/papers.yaml data/candidates.yaml README.md assets/model_timeline.svg 'assets/model_timeline-*.svg'
+          git add data/papers.yaml data/candidates.yaml README.md docs/index.html docs/.nojekyll assets/model_timeline.svg 'assets/model_timeline-*.svg'
           git commit -m "Update RNA foundation model metadata"
           git push --force origin "HEAD:$UPDATE_BRANCH"
 

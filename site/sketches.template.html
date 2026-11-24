@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three directions for the RNA FM site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* Review sheet: three hero directions, each built from data/papers.yaml.
+   A  gel electrophoresis: lanes = release year, migration = parameter count
+   B  Sanger chromatogram: one peak per model, four dye channels = four scopes
+   C  circular RNA, riso print: models around a ring, bar length = parameter count */
+*{box-sizing:border-box}
+body{margin:0;background:#E4E4E0;color:#1A1A1A;font:15px/1.5 "Public Sans",system-ui,sans-serif}
+.sheet{max-width:1240px;margin:0 auto;padding:28px 20px 60px}
+.intro{max-width:70ch;margin:0 0 26px}
+.intro h1{font:700 22px/1.2 "Public Sans",sans-serif;margin:0 0 6px}
+.intro p{margin:0;color:#4A4A46}
+figure{margin:0 0 36px}
+figure .frame{border-radius:6px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.08),0 12px 30px -18px rgba(0,0,0,.35)}
+figure svg{display:block;width:100%;height:auto}
+figcaption{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:12px;max-width:90ch}
+figcaption b{font:700 17px "Public Sans",sans-serif}
+figcaption span{color:#4A4A46}
+.bead{cursor:default}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="intro">
+    <h1>Three directions for the site's first screen</h1>
+    <p>Each one is drawn from the same 54 entries in data/papers.yaml, so what you see is the real field, not filler. Pick one, or name the parts you want to combine; the explorer, benchmarks and surveys below the fold will take on the chosen language.</p>
+  </div>
+
+  <figure><div class="frame"><svg id="gel" viewBox="0 0 1200 720" role="img" aria-label="Direction A: models shown as bands on an electrophoresis gel"></svg></div>
+    <figcaption><b>A. The gel</b><span>Every wet-lab reader can read a gel at a glance. Lanes are release years, a ladder gives the parameter scale, and big models stay near the wells just as long fragments do. Brighter bands mean several models of similar size.</span></figcaption></figure>
+
+  <figure><div class="frame"><svg id="trace" viewBox="0 0 1200 720" role="img" aria-label="Direction B: models shown as peaks on a Sanger sequencing chromatogram"></svg></div>
+    <figcaption><b>B. The chromatogram</b><span>The field read out like a Sanger trace. Each model is one base call in release order; the four dye channels are the four scopes and peak height is model size. The base-call row doubles as the model index.</span></figcaption></figure>
+
+  <figure><div class="frame"><svg id="circ" viewBox="0 0 1200 720" role="img" aria-label="Direction C: models arranged around a circular RNA in a risograph print style"></svg></div>
+    <figcaption><b>C. The circular RNA, as a riso print</b><span>A circos-style ring read clockwise from 2022, printed in four fluorescent riso inks with grain and overprint. The most poster-like of the three, and the one that will look best shared on social media.</span></figcaption></figure>
+</div>
+
+<script type="application/json" id="site-data">/*__SITE_DATA__*/{}</script>
+<script>
+{
+const D = JSON.parse(document.getElementById('site-data').textContent);
+const M = D.models;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ym = s => { const [y,m] = s.split('.').map(Number); return y*12 + m - 1; };
+const lg = m => m.params_m ? Math.log10(Math.max(m.params_m, 1)) : null;   // log10 of params in millions
+const byRelease = [...M].sort((a,b) => ym(a.release) - ym(b.release) || a.name.localeCompare(b.name));
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const upd = (() => { const d = new Date(D.updated + 'T00:00:00Z'); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`; })();
+const tspans = (x, y, lh, lines) => lines.map((l,i) => `<tspan x="${x}" y="${y + i*lh}">${l}</tspan>`).join('');
+
+/* ================= A. gel ================= */
+{
+  const svg = document.getElementById('gel');
+  const gx = 478, gy = 52, gw = 690, gh = 640, lanes = ['Ladder', ...[...new Set(byRelease.map(m => m.release.slice(0,4)))]];
+  const lw = gw / lanes.length, top = gy + 70, bottom = gy + gh - 92, LMAX = Math.log10(40000);
+  const yOf = l => top + (LMAX - l) / LMAX * (bottom - top);
+  let s = `<defs>
+    <radialGradient id="gA" cx="55%" cy="45%" r="75%"><stop offset="0" stop-color="#2E2591"/><stop offset="1" stop-color="#17114A"/></radialGradient>
+    <filter id="glow" x="-30%" y="-300%" width="160%" height="700%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="grainA" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .7  0 0 0 0 .7  0 0 0 0 1  0 0 0 .22 0"/></filter>
+    <linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".5" stop-color="#FFB347" stop-opacity=".55"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1200" height="720" fill="#100B33"/>
+  <rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" rx="10" fill="url(#gA)"/>
+  <rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" rx="10" filter="url(#grainA)" opacity=".55"/>`;
+  // left: title and figure legend
+  s += `<text font-family="IBM Plex Sans Condensed, sans-serif" class="fit" data-max="390" font-weight="700" font-size="58" fill="#FFE7C2" letter-spacing="-1">${tspans(56, 120, 62, ['RNA foundation','models, run','on a gel.'])}</text>
+  <text font-family="IBM Plex Sans Condensed, sans-serif" font-size="16" fill="#C4BCEB">${tspans(56, 330, 24, [
+    '<tspan font-weight="700" fill="#FFE7C2">Fig. 1</tspan>  Each lane is a year of first release and',
+    'each band is one model. Larger models migrate',
+    'less, so they stay near the wells. The ladder',
+    'marks parameter count from 1M to 10B; brighter',
+    'bands hold several models of similar size. The',
+    'smear at the bottom is models with no reported size.'])}</text>
+  <text font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" fill="#8F86C4">${tspans(56, 620, 22, [
+    `${M.length} models, ${D.benchmarks.length} benchmarks, ${D.surveys.length} surveys.`,
+    `Rescanned daily. Last change ${upd}.`])}</text>`;
+  lanes.forEach((ln, i) => {
+    const x = gx + i * lw;
+    s += `<text x="${x + lw/2}" y="${gy - 14}" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-weight="${i ? 700 : 500}" font-size="15" fill="${i ? '#FFE7C2' : '#C4BCEB'}">${ln}</text>`;
+    s += `<rect x="${x + 12}" y="${gy + 22}" width="${lw - 24}" height="16" rx="2" fill="#0C0828" stroke="#463DA8" stroke-width="1"/>`;
+    if (!i) {
+      [[0,'1M'],[1,'10M'],[2,'100M'],[3,'1B'],[4,'10B']].forEach(([l,t]) => {
+        const y = yOf(l);
+        s += `<rect x="${x + 14}" y="${y - 2.5}" width="${lw - 60}" height="5" rx="2" fill="#E9E4FF" opacity=".75" filter="url(#glow)"/>
+              <text x="${x + lw - 40}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#C4BCEB">${t}</text>`;
+      });
+      return;
+    }
+    const inLane = byRelease.filter(m => m.release.startsWith(ln));
+    const sized = inLane.filter(m => m.params_m).sort((a,b) => lg(b) - lg(a));
+    let lastY = -99;
+    sized.forEach(m => {
+      const y = yOf(lg(m));
+      s += `<rect class="bead" x="${x + 12}" y="${y - 3.5}" width="${46}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"><title>${esc(m.name)}, ${esc(m.params)}</title></rect>`;
+      if (y - lastY > 11.5) { s += `<text x="${x + 64}" y="${y + 3.8}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="11" fill="#FFD9A6">${esc(m.name)}</text>`; lastY = y; }
+    });
+    const nr = inLane.length - sized.length;
+    if (nr) s += `<rect x="${x + 12}" y="${bottom + 22}" width="46" height="${28 + nr * 6}" rx="4" fill="url(#smear)"/>
+                  <text x="${x + 64}" y="${bottom + 42}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="11" fill="#A69DD6">${nr} unsized</text>`;
+  });
+  svg.innerHTML = s;
+}
+
+/* ================= B. chromatogram ================= */
+{
+  const svg = document.getElementById('trace');
+  const CH = {   // dye channel per scope, using the conventional Sanger trace colours (T shown as U)
+    specialized_rna_fm:{b:'A', c:'#1E9B3C'}, core_rna_fm:{b:'C', c:'#1F4FD1'},
+    adapted_derived:{b:'G', c:'#1A1A1A'}, rna_inclusive_broad:{b:'U', c:'#D6262E'} };
+  const x0 = 64, x1 = 1150, base = 628, n = byRelease.length, step = (x1 - x0) / n;
+  const xOf = i => x0 + (i + .5) * step, hOf = m => m.params_m ? 46 + lg(m) / 4.6 * 230 : 30;
+  let s = `<defs><pattern id="grid" width="${step}" height="24" patternUnits="userSpaceOnUse" x="${x0}" y="${base}">
+      <path d="M0 0V24M0 0H${step}" stroke="#F0E4E7" stroke-width="1" fill="none"/></pattern></defs>
+    <rect width="1200" height="720" fill="#FFFFFF"/>
+    <rect x="${x0}" y="350" width="${x1 - x0}" height="${base - 350}" fill="url(#grid)"/>
+    <rect x="0" y="0" width="1200" height="30" fill="#F4F4F2"/>
+    <text x="24" y="20" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#55554F">RNA_foundation_models.ab1</text>
+    <text x="1176" y="20" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#55554F">${n} bases called    last run ${D.updated}</text>
+    <text font-family="Barlow Condensed, sans-serif" class="fit" data-max="690" font-weight="800" font-size="78" fill="#141414" letter-spacing="-1">${tspans(60, 118, 72, ['Sequencing the RNA','foundation model field'])}</text>
+    <text font-family="Public Sans, sans-serif" font-size="15.5" fill="#3E3E3A">${tspans(780, 74, 23, [
+      'One peak per model, in order of first release.',
+      'Peak height is parameter count; the four dye',
+      'channels are the four scopes. Low flat peaks',
+      'are models that report no size.'])}</text>`;
+  // channel key
+  Object.entries(CH).forEach(([k,v], i) => {
+    const lab = D.scopes[k].label;
+    s += `<text x="${780 + (i % 2) * 150}" y="${190 + Math.floor(i / 2) * 26}" font-family="Barlow Condensed, sans-serif" font-size="17" fill="${v.c}"><tspan font-weight="800" font-size="21">${v.b}</tspan> ${lab}</text>`;
+  });
+  // traces
+  Object.entries(CH).forEach(([k,v]) => {
+    const pk = byRelease.map((m,i) => m.scope === k ? [xOf(i), hOf(m)] : null).filter(Boolean);
+    let d = '';
+    for (let x = x0; x <= x1; x += 1.5) {
+      let y = 0; pk.forEach(([px,h]) => { y += h * Math.exp(-((x - px) ** 2) / (2 * 5.2 ** 2)); });
+      d += (d ? 'L' : 'M') + x.toFixed(1) + ' ' + (base - y).toFixed(1);
+    }
+    s += `<path d="${d}" fill="none" stroke="${v.c}" stroke-width="1.7" stroke-linejoin="round"/>`;
+  });
+  // base calls, names, positions, years
+  const years = {};
+  byRelease.forEach((m,i) => (years[m.release.slice(0,4)] ??= []).push(i));
+  Object.entries(years).forEach(([yr, idx], k) => {
+    const a = xOf(idx[0]) - step/2 + 2, b = xOf(idx[idx.length - 1]) + step/2 - 2, narrow = b - a < 56;
+    s += `<path d="M${a} ${base + 32}v8H${b}v-8" fill="none" stroke="#141414" stroke-width="1.4"/>
+          <text x="${narrow ? a : (a + b) / 2}" y="${base + (narrow && k % 2 ? 84 : 62)}" text-anchor="${narrow ? 'start' : 'middle'}" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="20" fill="#141414">${yr}</text>`;
+  });
+  byRelease.forEach((m,i) => {
+    const x = xOf(i), v = CH[m.scope];
+    s += `<text x="${x}" y="334" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="16" fill="${v.c}">${v.b}</text>
+          <text transform="translate(${x + 3},${316}) rotate(-58)" font-family="Public Sans, sans-serif" font-size="10.5" fill="#2A2A27">${esc(m.name)}</text>`;
+    if ((i + 1) % 10 === 0) s += `<text x="${x}" y="${base + 20}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="#8A8A84">${i + 1}</text>`;
+  });
+  s += `<line x1="${x0}" x2="${x1}" y1="${base}" y2="${base}" stroke="#141414" stroke-width="1.2"/>`;
+  svg.innerHTML = s;
+}
+
+/* ================= C. circular RNA, riso ================= */
+{
+  const svg = document.getElementById('circ');
+  const INK = { core_rna_fm:'#0078BF', specialized_rna_fm:'#FF48B0', adapted_derived:'#FF6C2F', rna_inclusive_broad:'#00A95C' };
+  const cx = 836, cy = 362, rIn = 128, a0 = -90 + 14, a1 = 270 - 14, n = byRelease.length;
+  const ang = i => (a0 + (a1 - a0) * (i + .5) / n) * Math.PI / 180;
+  const pt = (r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  let s = `<defs>
+      <filter id="grainC" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="9"/>
+        <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.15"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    </defs>
+    <rect width="1200" height="720" fill="#FBFAF7"/>
+    <g style="mix-blend-mode:multiply">
+      <circle cx="${cx + 2}" cy="${cy - 1}" r="${rIn - 6}" fill="none" stroke="#FF48B0" stroke-width="22" opacity=".9"/>
+      <circle cx="${cx - 1}" cy="${cy + 1}" r="${rIn - 36}" fill="#FFE800" opacity=".35"/>`;
+  byRelease.forEach((m,i) => {
+    const a = ang(i), len = m.params_m ? 18 + lg(m) / 4.6 * 104 : 0;
+    const [ax,ay] = pt(rIn + 12, a), [bx,by] = pt(rIn + 12 + len, a);
+    s += len ? `<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" stroke="${INK[m.scope]}" stroke-width="8" stroke-linecap="round"/>`
+             : `<circle cx="${ax}" cy="${ay}" r="4.5" fill="none" stroke="${INK[m.scope]}" stroke-width="2.4"/>`;
+    const deg = a * 180 / Math.PI, flip = deg > 90 && deg < 270;
+    const [lx,ly] = pt(rIn + 140, a);
+    s += `<text transform="translate(${lx},${ly}) rotate(${flip ? deg - 180 : deg})" text-anchor="${flip ? 'end' : 'start'}" dominant-baseline="middle"
+            font-family="Syne, sans-serif" font-weight="600" font-size="10.5" fill="#1D1D1B">${esc(m.name)}</text>`;
+  });
+  s += `</g>`;
+  // year ticks inside the ring
+  let prev = '';
+  byRelease.forEach((m,i) => {
+    const yr = m.release.slice(0,4); if (yr === prev) return; prev = yr;
+    const a = ang(i) - (Math.PI / n), [px,py] = pt(rIn - 22, a), [qx,qy] = pt(rIn + 4, a), [tx,ty] = pt(rIn - 40 - (yr === '2023' ? 22 : 0), a + .1);
+    s += `<line x1="${px}" y1="${py}" x2="${qx}" y2="${qy}" stroke="#1D1D1B" stroke-width="1.6"/>
+          <text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" font-family="Syne, sans-serif" font-weight="700" font-size="13" fill="#1D1D1B">${yr}</text>`;
+  });
+  // left column
+  s += `<g style="mix-blend-mode:multiply">
+      <text font-family="Syne, sans-serif" font-weight="800" font-size="66" fill="#0078BF" letter-spacing="-2">${tspans(56, 118, 64, ['RNA','foundation','models'])}</text>
+      <text font-family="Syne, sans-serif" font-weight="800" font-size="66" fill="#FF48B0" letter-spacing="-2" transform="translate(3,-2)" opacity=".85">${tspans(56, 310, 64, ['in one','circle.'])}</text>
+    </g>
+    <text font-family="Public Sans, sans-serif" font-size="15.5" fill="#33332F">${tspans(58, 430, 23, [
+      'Every model since 2022, read clockwise from',
+      'the top. Bar length is parameter count; rings',
+      'without a bar report no size.'])}</text>`;
+  const keyY = 528;
+  Object.entries(INK).forEach(([k,c],i) => {
+    s += `<rect x="${58}" y="${keyY + i*28}" width="26" height="9" rx="4.5" fill="${c}" style="mix-blend-mode:multiply"/>
+          <text x="${96}" y="${keyY + i*28 + 9}" font-family="Public Sans, sans-serif" font-size="14.5" fill="#1D1D1B">${D.scopes[k].long}</text>`;
+  });
+  s += `<text x="58" y="680" font-family="Public Sans, sans-serif" font-size="13" fill="#6C6C66">${M.length} models, ${D.benchmarks.length} benchmarks, ${D.surveys.length} surveys. Last change ${upd}.</text>
+    <rect width="1200" height="720" fill="#6E6A60" filter="url(#grainC)" opacity=".09" style="mix-blend-mode:multiply"/>`;
+  svg.innerHTML = s;
+}
+// shrink display titles that would run past their column, once the web fonts are in
+document.fonts.ready.then(() => document.querySelectorAll('text.fit').forEach(t => {
+  const max = +t.dataset.max, w = t.getBBox().width;
+  if (w > max) t.setAttribute('font-size', (parseFloat(t.getAttribute('font-size')) * max / w).toFixed(1));
+}));
+}
+</script>
+</body>
+</html>
