@@ -10,14 +10,14 @@ A curated, continuously updated catalog of **RNA sequence foundation models**: r
 
 ### Newest models
 
-| Model | First release | Params | Links |
-|:--|:--|:--|:--|
-| **RIBOSPAN** | Aug 2026 | 1.61B | [Paper](https://arxiv.org/abs/2608.22849v2) · [Code](https://github.com/GAIR-NLP/RIBOSPAN-FM) · [Weights](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM) |
-| **CodonMamba** | Aug 2026 | 71M | [Paper](https://doi.org/10.64898/2026.08.24.746601) · [Code](https://github.com/meilanglang/CodonMamba) · [Weights](https://huggingface.co/langmei/CodonMamba) |
-| **RNAret** | Mar 2026 | 12M | [Paper](https://www.nature.com/articles/s42003-026-09757-x) · [Code](https://github.com/DrBlackZJU/RNAret/) · [Weights](https://bis.zju.edu.cn/rnaret/download) |
-| **RNAElectra** | Mar 2026 | not reported | [Paper](https://doi.org/10.64898/2026.03.15.711950) |
-| **EVA** | Mar 2026 | 21M / 145M / 437M / 1.4B | [Paper](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) · [Code](https://github.com/GENTEL-lab/EVA) · [Weights](https://huggingface.co/GENTEL-Lab/EVA) |
-| **NUWA** | Feb 2026 | not reported | [Paper](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) · [Code](https://github.com/zysxmu/NUWA) · [Weights](https://drive.google.com/drive/folders/1dK33csJUkqmhdL4hfpDoFm6AQXozcuo0?usp=drive_link) |
+| Model | First release | Params | Pre-training data | Links |
+|:--|:--|:--|:--|:--|
+| **RIBOSPAN** | Aug 2026 | 1.61B | RNAcentral v26 + Ensembl (67.6M seqs, 85.7B nt) | [Paper](https://arxiv.org/abs/2608.22849v2) · [Code](https://github.com/GAIR-NLP/RIBOSPAN-FM) · [Weights](https://huggingface.co/SII-GAIR-NLP/RIBOSPAN-FM) |
+| **CodonMamba** | Aug 2026 | 71M | CaLM/ENA (8.8M CDS, 1544 organisms) | [Paper](https://doi.org/10.64898/2026.08.24.746601) · [Code](https://github.com/meilanglang/CodonMamba) · [Weights](https://huggingface.co/langmei/CodonMamba) |
+| **RNAret** | Mar 2026 | 12M | RNAcentral (29.8M ncRNA seqs) | [Paper](https://www.nature.com/articles/s42003-026-09757-x) · [Code](https://github.com/DrBlackZJU/RNAret/) · [Weights](https://bis.zju.edu.cn/rnaret/download) |
+| **RNAElectra** | Mar 2026 | not reported | RNAcentral ncRNAs | [Paper](https://doi.org/10.64898/2026.03.15.711950) |
+| **EVA** | Mar 2026 | 21M / 145M / 437M / 1.4B | 114M+ full-length RNA seqs | [Paper](https://www.biorxiv.org/content/10.64898/2026.03.17.712398v2) · [Code](https://github.com/GENTEL-lab/EVA) · [Weights](https://huggingface.co/GENTEL-Lab/EVA) |
+| **NUWA** | Feb 2026 | not reported | Multi-species mRNA CDS (115M seqs) | [Paper](https://www.biorxiv.org/content/10.1101/2025.11.01.686058v3) · [Code](https://github.com/zysxmu/NUWA) · [Weights](https://drive.google.com/drive/folders/1dK33csJUkqmhdL4hfpDoFm6AQXozcuo0?usp=drive_link) |
 
 <details>
 <summary><b>Scope</b>: what counts as an RNA sequence foundation model here</summary>

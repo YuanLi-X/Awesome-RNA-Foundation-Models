@@ -54,6 +54,34 @@ STATUS_OVERRIDES = {"ChaRNABERT": "workshop", "RFamLlama": "workshop", "Helix-mR
 PREPRINT_MARKERS = ("arxiv.org", "biorxiv.org", "openreview.net", "doi.org/10.1101", "doi.org/10.64898")
 
 
+# Pre-training sources recognised in `pretraining_data` (matched on the text only; nothing inferred).
+SOURCES = [
+    ("RNAcentral", r"RNAcentral"),
+    ("Rfam", r"\bRfam\b"),
+    ("NCBI / RefSeq / GenBank", r"\bNCBI\b|RefSeq|GenBank"),
+    ("Ensembl", r"Ensembl"),
+    ("GENCODE", r"GENCODE"),
+    ("MARS", r"\bMARS\b"),
+    ("Metagenomes (MGnify, MG-RAST)", r"MGnify|MG-RAST|[Mm]etagenomic"),
+    ("OneKP plant transcriptomes", r"OneKP"),
+    ("ENA", r"\bENA\b"),
+    ("UCSC", r"\bUCSC\b"),
+    ("NONCODE", r"NONCODE"),
+    ("Zoonomia", r"Zoonomia"),
+    ("Genome Warehouse", r"\bGWH\b"),
+    ("OAS (antibody mRNA)", r"\bOAS\b"),
+    ("OpenGenome2", r"OpenGenome2"),
+    ("Protein databases (UniRef, UniProt)", r"UniRef|UniProt"),
+    ("Experimental / in-house data", r"[Ii]n-house|UltraSelex|in vitro"),
+]
+UNSPECIFIED = "Source not specified"
+
+
+def data_sources(text) -> list[str]:
+    found = [label for label, pat in SOURCES if text and re.search(pat, str(text))]
+    return found or [UNSPECIFIED]
+
+
 def entry_status(name: str, url: str) -> str | None:
     if name in STATUS_OVERRIDES:
         return STATUS_OVERRIDES[name]
@@ -121,6 +149,7 @@ def build(template: Path = TEMPLATE, output: Path = OUTPUT) -> None:
             "params": r.get("params") if r.get("params") not in (None, "-") else None,
             "params_m": pm,
             "data": r.get("pretraining_data") if r.get("pretraining_data") not in (None, "-") else None,
+            "sources": data_sources(r.get("pretraining_data")),
             "abstract": " ".join(str(r["abstract"]).split()),
             "github": r.get("github_url"),
             "hf": r.get("hf_url"),

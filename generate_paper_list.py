@@ -827,7 +827,8 @@ def _links(r):
     return " · ".join(out)
 _rows = "\n".join(
     f"| **{r['name']}** | {_MON[int((r.get('timeline_date') or r['date'])[5:7]) - 1]} {(r.get('timeline_date') or r['date'])[:4]} "
-    f"| {r.get('params') if r.get('params') not in (None, '-') else 'not reported'} | {_links(r)} |"
+    f"| {r.get('params') if r.get('params') not in (None, '-') else 'not reported'} "
+    f"| {r.get('pretraining_data') if r.get('pretraining_data') not in (None, '-') else 'not reported'} | {_links(r)} |"
     for r in _newest)
 _scope = re.search(r"> \*\*Scope\.\*\* (.*?)\n", new_readme)
 _scope_text = _scope.group(1) if _scope else ""
@@ -843,8 +844,8 @@ A curated, continuously updated catalog of **RNA sequence foundation models**: r
 
 ### Newest models
 
-| Model | First release | Params | Links |
-|:--|:--|:--|:--|
+| Model | First release | Params | Pre-training data | Links |
+|:--|:--|:--|:--|:--|
 {_rows}
 
 <details>

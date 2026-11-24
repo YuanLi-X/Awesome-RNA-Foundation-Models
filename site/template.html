@@ -91,7 +91,7 @@ h2{font:700 clamp(30px,3.4vw,42px)/1.05 var(--cond);letter-spacing:-.01em;margin
 .newest .t{font-size:14px;line-height:1.45;max-height:2.9em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .newest a:hover .nm{text-decoration:underline;text-underline-offset:3px}
 
-.controls{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.controls{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
 .controls label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--muted)}
 .controls input,.controls select{font:16px var(--body);color:var(--ink);background:var(--card);border:1.5px solid var(--rule);border-radius:7px;padding:9px 11px;min-height:44px;width:100%}
 .controls input:focus,.controls select:focus{border-color:var(--ink);outline:none}
@@ -112,8 +112,8 @@ table.models{width:100%;border-collapse:collapse;table-layout:fixed}
 .models th button:focus-visible{outline:2px solid var(--ink)}
 .models th[aria-sort] button::after{content:" ↓";color:var(--ink)}
 .models th[aria-sort="ascending"] button::after{content:" ↑"}
-.models th:nth-child(1){width:27%}.models th:nth-child(2){width:10%}.models th:nth-child(3){width:10%}
-.models th:nth-child(4){width:11%}.models th:nth-child(5){width:13%}.models th:nth-child(6){width:13%}.models th:nth-child(7){width:16%}
+.models th:nth-child(1){width:20%}.models th:nth-child(2){width:9%}.models th:nth-child(3){width:9%}
+.models th:nth-child(4){width:9%}.models th:nth-child(5){width:11%}.models th:nth-child(6){width:10%}.models th:nth-child(7){width:19%}.models th:nth-child(8){width:13%}
 .models td{padding:12px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:14.5px}
 .models tr.m{cursor:pointer}
 .models tr.m:hover td{background:var(--hover)}
@@ -139,6 +139,17 @@ tr.detail td{background:var(--hover);padding:2px 12px 22px 12px}
 .detail .ev{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
 .detail .ev b{font-weight:600;color:var(--ink)}
 .empty{padding:36px 12px;text-align:center;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.tag{font:500 12.5px var(--cond);padding:1px 6px;border-radius:4px;background:#ECE8F7;color:var(--ink);white-space:nowrap}
+.tag.none{background:transparent;border:1px dashed var(--rule);color:var(--muted)}
+.dtext{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.srcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:2px 36px;border-top:2px solid var(--ink);padding-top:6px}
+.src{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr) 2.2em;align-items:center;gap:12px;width:100%;min-height:40px;padding:6px 4px;border:0;border-bottom:1px solid var(--rule);background:none;color:var(--ink);font:15px var(--cond);text-align:left;cursor:pointer}
+.src:hover{background:var(--hover)}
+.src[aria-pressed="true"]{background:var(--hover);font-weight:700}
+.src .bar{height:9px;border-radius:2px;background:linear-gradient(90deg,#FFB347,#F59A1C);box-shadow:0 0 0 1px #D98A1C inset}
+.src.unspec .bar{background:repeating-linear-gradient(90deg,#CFC8E4 0 5px,transparent 5px 8px);box-shadow:none}
+.src .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
 
 .two{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(28px,4vw,52px)}
 .res{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
@@ -174,6 +185,8 @@ footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
   .models tr.m td:last-child{padding-bottom:14px;border-bottom:1px solid var(--rule)}
   .models td[data-l]{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:8px}
   .models td[data-l]::before{content:attr(data-l);color:var(--muted);font-size:13px}
+  .models td[data-l] > *{grid-column:2;justify-self:start}
+  .models td[data-l]::before{grid-row:1 / span 3}
   .mig{display:none}
   tr.detail td{padding:4px 14px 18px}
   .detail .grid{grid-template-columns:1fr;gap:14px}
@@ -218,6 +231,12 @@ footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
     <div class="newest" id="newest"></div>
   </section>
 
+  <section class="band-s" id="data" aria-labelledby="h-data">
+    <h2 id="h-data">What they were trained on</h2>
+    <p class="sub">How many models in the catalog draw on each pre-training source. A model can use several sources. Select a source to list its models.</p>
+    <div class="srcs" id="srcs"></div>
+  </section>
+
   <section class="band-s" id="models" aria-labelledby="h-models">
     <h2 id="h-models">Browse the models</h2>
     <p class="sub">Filters here also dim the bands on the gel. Open a row for the abstract, the pre-training data and the source of every figure.</p>
@@ -226,6 +245,7 @@ footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
       <label>RNA focus<select id="f-cat"></select></label>
       <label>Architecture<select id="f-arch"></select></label>
       <label>Tokenization<select id="f-tok"></select></label>
+      <label>Pre-training source<select id="f-src"></select></label>
     </div>
     <div class="row2">
       <div class="seg" id="seg" aria-label="Scope"></div>
@@ -242,6 +262,7 @@ footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
           <th scope="col">RNA focus</th>
           <th scope="col">Architecture</th>
           <th scope="col" data-sort="params"><button>Params</button></th>
+          <th scope="col">Pre-training data</th>
           <th scope="col">Links</th>
         </tr></thead>
         <tbody id="rows"></tbody>
@@ -292,16 +313,17 @@ $('#fine').innerHTML = `Generated from <a href="${esc(D.repo)}/blob/main/data/pa
 
 /* ---------- state ---------- */
 const ALL = Object.keys(SC);
-const st = { scopes:new Set(ALL), q:'', cat:'', arch:'', tok:'', w:false, code:false, sort:'date', dir:-1, open:null };
+const st = { scopes:new Set(ALL), q:'', cat:'', arch:'', tok:'', src:'', w:false, code:false, sort:'date', dir:-1, open:null };
 const pass = m => {
   if (!st.scopes.has(m.scope)) return false;
   if (st.cat && m.category !== st.cat) return false;
   if (st.arch && m.arch !== st.arch) return false;
   if (st.tok && m.token !== st.tok) return false;
+  if (st.src && !m.sources.includes(st.src)) return false;
   if (st.w && !(m.hf || m.weights)) return false;
   if (st.code && !m.github) return false;
   if (st.q) {
-    const hay = [m.name, m.title, m.data, m.category, m.arch_detail, m.token_detail, m.abstract].join(' ').toLowerCase();
+    const hay = [m.name, m.title, m.data, ...m.sources, m.category, m.arch_detail, m.token_detail, m.abstract].join(' ').toLowerCase();
     if (!st.q.split(/\s+/).every(w => hay.includes(w))) return false;
   }
   return true;
@@ -324,6 +346,19 @@ function fill(sel, key, label, fmt = x => x) {
 fill($('#f-cat'), 'category', 'Any focus', short);
 fill($('#f-arch'), 'arch', 'Any architecture');
 fill($('#f-tok'), 'token', 'Any tokenization');
+const srcCount = {}; M.forEach(m => m.sources.forEach(x => srcCount[x] = (srcCount[x] || 0) + 1));
+const UNSPEC = 'Source not specified';
+const srcList = Object.entries(srcCount).sort((a,b) => (a[0] === UNSPEC) - (b[0] === UNSPEC) || b[1] - a[1] || a[0].localeCompare(b[0]));
+$('#f-src').innerHTML = `<option value="">Any source</option>` + srcList.map(([v,n]) => `<option value="${esc(v)}">${esc(v)} (${n})</option>`).join('');
+$('#f-src').onchange = e => { st.src = e.target.value; update(); };
+const maxN = Math.max(...srcList.map(x => x[1]));
+$('#srcs').innerHTML = srcList.map(([v,n]) => `<button class="src${v === UNSPEC ? ' unspec' : ''}" data-src="${esc(v)}" aria-pressed="false">
+  <span>${esc(v)}</span><span class="bar" style="width:${(n / maxN * 100).toFixed(1)}%"></span><span class="n">${n}</span></button>`).join('');
+$('#srcs').addEventListener('click', e => {
+  const b = e.target.closest('.src'); if (!b) return;
+  const v = b.dataset.src; reset(false); st.src = st.src === v ? '' : v; $('#f-src').value = st.src; update();
+  document.getElementById('models').scrollIntoView({behavior: motion() ? 'smooth' : 'auto'});
+});
 $('#f-cat').onchange = e => { st.cat = e.target.value; update(); };
 $('#f-arch').onchange = e => { st.arch = e.target.value; update(); };
 $('#f-tok').onchange = e => { st.tok = e.target.value; update(); };
@@ -388,7 +423,7 @@ function drawGel() {
 function paintGel() { svg.querySelectorAll('.lane').forEach(g => g.classList.toggle('off', !pass(M[+g.dataset.i]))); }
 function showTip(g) {
   const m = M[+g.dataset.i], r = g.querySelector('.b, .sm').getBoundingClientRect(), bx = box.getBoundingClientRect();
-  tip.innerHTML = `<b>${esc(m.name)}</b><span>${esc(m.params ? m.params + ' parameters' : 'Size not reported')}, ${fmtYM(m.release)}</span><span class="more">${esc(SC[m.scope].long)}</span>`;
+  tip.innerHTML = `<b>${esc(m.name)}</b><span>${esc(m.params ? m.params + ' parameters' : 'Size not reported')}, ${fmtYM(m.release)}</span><span class="more">${esc(SC[m.scope].long)}</span><span class="more">Trained on: ${esc(m.data || 'not reported')}</span>`;
   const half = 130, x = r.left - bx.left + box.scrollLeft + r.width / 2;
   tip.style.left = Math.min(Math.max(x, half + box.scrollLeft), box.scrollLeft + bx.width - half) + 'px';
   tip.style.top = (r.top - bx.top) + 'px'; tip.classList.add('on');
@@ -420,7 +455,7 @@ function rows() {
   $('#count').innerHTML = st.only ? `${list.length} models from one band. <button class="linkbtn" id="clear-band">Show all</button>`
     : list.length === M.length ? `All ${M.length} models` : `${list.length} of ${M.length} models`;
   if (st.only) $('#clear-band').onclick = () => { st.only = null; update(); };
-  if (!list.length) { $('#rows').innerHTML = `<tr><td colspan="7" class="empty">No model matches these filters. <button class="linkbtn" id="reset">Clear all filters</button></td></tr>`; $('#reset').onclick = () => reset(true); return; }
+  if (!list.length) { $('#rows').innerHTML = `<tr><td colspan="8" class="empty">No model matches these filters. <button class="linkbtn" id="reset">Clear all filters</button></td></tr>`; $('#reset').onclick = () => reset(true); return; }
   $('#rows').innerHTML = list.map(m => {
     const open = st.open === m.idx;
     const main = `<tr class="m${open ? ' open' : ''}" id="${m.id}" data-i="${m.idx}">
@@ -430,8 +465,9 @@ function rows() {
       <td data-l="RNA focus">${esc(short(m.category))}</td>
       <td data-l="Architecture">${esc(m.arch)}<span class="st">${esc(m.token)} tokens</span></td>
       <td data-l="Params" class="num">${esc(m.params || 'not reported')}${mig(m)}</td>
+      <td data-l="Pre-training data"><div class="tags">${m.sources.map(x => `<span class="tag${x === UNSPEC ? ' none' : ''}">${esc(x.replace(/ \(.*\)$/, ''))}</span>`).join('')}</div><span class="dtext">${esc(m.data || 'Not reported')}</span></td>
       <td data-l="Links"><div class="links">${link(m.url,'Paper')}${link(m.github,'Code')}${link(m.hf || m.weights, m.hf_port ? 'Weights*' : 'Weights')}</div></td></tr>`;
-    const det = open ? `<tr class="detail" id="${m.id}-d"><td colspan="7"><div class="grid"><p>${esc(m.abstract)}</p><dl>
+    const det = open ? `<tr class="detail" id="${m.id}-d"><td colspan="8"><div class="grid"><p>${esc(m.abstract)}</p><dl>
       <dt>Scope</dt><dd>${esc(SC[m.scope].long)}</dd>
       <dt>Pre-training data</dt><dd>${esc(m.data || 'Not reported')}</dd>
       <dt>Architecture</dt><dd>${esc(m.arch_detail)}</dd>
@@ -456,8 +492,8 @@ document.querySelectorAll('th[data-sort] button').forEach(b => b.addEventListene
 }));
 const motion = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(redraw) {
-  st.scopes = new Set(ALL); st.q = st.cat = st.arch = st.tok = ''; st.w = st.code = false; st.only = null;
-  $('#q').value = ''; ['#f-cat','#f-arch','#f-tok'].forEach(s => $(s).value = ''); $('#f-w').checked = $('#f-code').checked = false;
+  st.scopes = new Set(ALL); st.q = st.cat = st.arch = st.tok = st.src = ''; st.w = st.code = false; st.only = null;
+  $('#q').value = ''; ['#f-cat','#f-arch','#f-tok','#f-src'].forEach(s => $(s).value = ''); $('#f-w').checked = $('#f-code').checked = false;
   if (redraw) update();
 }
 function reveal(m) {
@@ -469,6 +505,7 @@ function reveal(m) {
 }
 function update() {
   document.querySelectorAll('[data-scope]').forEach(c => c.setAttribute('aria-pressed', st.scopes.has(c.dataset.scope)));
+  document.querySelectorAll('.src').forEach(c => c.setAttribute('aria-pressed', c.dataset.src === st.src));
   document.querySelectorAll('th[data-sort]').forEach(th => th.dataset.sort === st.sort ? th.setAttribute('aria-sort', st.dir > 0 ? 'ascending' : 'descending') : th.removeAttribute('aria-sort'));
   if (geom) paintGel();
   rows();
