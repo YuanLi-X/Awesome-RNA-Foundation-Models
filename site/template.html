@@ -57,7 +57,9 @@ a{color:inherit}
 #gel .band{cursor:pointer;transition:opacity .25s}
 #gel .band.off{opacity:.1}
 #gel .lbl{transition:opacity .25s}
-#gel .lbl.off{opacity:.25}
+#gel .lbl.off{opacity:.2}
+#gel .lbl{cursor:pointer}
+#gel .lbl:hover text{fill:#fff}
 #gel .band:focus{outline:none}
 #gel .band:focus rect.b,#gel .band:hover rect.b{stroke:#fff;stroke-width:1.2}
 @media (prefers-reduced-motion:no-preference){
@@ -327,12 +329,13 @@ const svg = $('#gel'), box = $('#gel-box'), tip = $('#tip');
 let ran = false, geom = null;
 function drawGel() {
   const W = box.clientWidth, narrow = W < 560;
-  const H = narrow ? 470 : Math.min(680, Math.max(520, W * .85));
-  const lanes = ['Ladder', ...years], pad = narrow ? 0 : 40;
-  const lw = (W - pad) / (lanes.length + .3), lx0 = i => i ? (i + .3) * lw : 0;   // ladder lane is 1.3 lanes wide
+  const H = narrow ? 470 : Math.min(720, Math.max(560, W * .95));
+  const lanes = ['Ladder', ...years], pad = narrow ? 0 : 16;
+  const extra = narrow ? .3 : 0;                                          // on phones the ladder lane is wider for its labels
+  const lw = (W - pad) / (lanes.length + extra), lx0 = i => i ? (i + extra) * lw : 0;
   const top = 74, bottom = H - 86;
   const yOf = l => top + (LMAX - Math.max(LMIN, l)) / (LMAX - LMIN) * (bottom - top);
-  const bw = Math.min(44, lw * (narrow ? .6 : .36)), room = lw - bw - 20, showLabels = room > 40;
+  const bw = narrow ? Math.min(40, lw * .6) : 26, showLabels = !narrow && lw - bw > 78;
   geom = { yOf, lw, bw, top, bottom };
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
   let s = `<defs>
@@ -353,26 +356,42 @@ function drawGel() {
     s += `<rect x="${lx}" y="${y - 2.5}" width="${bw}" height="5" rx="2" fill="#E7E1FF" opacity=".75" filter="url(#glow)"/>
           <text x="${lx + bw + 6}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="${narrow ? 11 : 12.5}" fill="#C9C1EE">${t}</text>`;
   });
-  // bands
+  // bands, then names spread down the right-hand side of each band with a leader line
   let lbl = '';
+  const gap = 14.5;
   years.forEach((yr, j) => {
     const x = lx0(j + 1) + 10, inLane = M.filter(m => m.release.startsWith(yr));
     const sized = inLane.filter(m => m.params_m).sort((a,b) => lg(b) - lg(a));
-    let lastY = -99;
+    const items = [];
     sized.forEach(m => {
       const y = yOf(lg(m));
       s += `<g class="band" data-i="${m.idx}" style="--dy:${(51 - y).toFixed(1)}px;--l:${j}" tabindex="0" role="button" aria-label="${esc(m.name)}, ${esc(m.params)} parameters, ${fmtYM(m.release)}">
               <rect x="${x - 2}" y="${y - 7}" width="${bw + 4}" height="14" fill="transparent"/>
               <rect class="b" x="${x}" y="${y - 3.5}" width="${bw}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"/></g>`;
-      const fits = j === years.length - 1 ? m.name.length * 5.7 < room + pad : m.name.length * 5.7 < room;
-      if (showLabels && fits && y - lastY > 12) { lbl += `<text class="lbl" data-i="${m.idx}" x="${x + bw + 7}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#FFD9A6" pointer-events="none">${esc(m.name)}</text>`; lastY = y; }
+      items.push({m, y, ly: y, c: '#FFD9A6'});
     });
     const nr = inLane.filter(m => !m.params_m);
     if (nr.length) {
       s += `<g class="band smear" data-lane="${yr}" tabindex="0" role="button" aria-label="${nr.length} models from ${yr} with no reported size">
               <rect x="${x}" y="${bottom + 18}" width="${bw}" height="${26 + nr.length * 6}" rx="4" fill="url(#smear)"/></g>`;
-      if (showLabels) lbl += `<text x="${x + bw + 7}" y="${bottom + 38}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#A69DD6" pointer-events="none">${nr.length} unsized</text>`;
+      nr.forEach((m, k) => items.push({m, y: bottom + 30 + k, ly: bottom + 30 + k, c: '#A69DD6'}));
     }
+    if (!showLabels) return;
+    const lo = top - 4, hi = H - 30;                       // 1-D dodge inside the gel
+    for (let it = 0; it < 200; it++) {
+      let moved = false;
+      for (let k = 1; k < items.length; k++) {
+        const d = items[k].ly - items[k-1].ly;
+        if (d < gap) { const p = (gap - d) / 2; items[k-1].ly -= p; items[k].ly += p; moved = true; }
+      }
+      items.forEach(o => o.ly = Math.min(Math.max(o.ly, lo), hi));
+      if (!moved) break;
+    }
+    const lx = x + bw;
+    items.forEach(o => {
+      lbl += `<g class="lbl" data-i="${o.m.idx}"><path d="M${lx + 1} ${o.y.toFixed(1)}h4L${lx + 10} ${o.ly.toFixed(1)}h3" fill="none" stroke="#8E86C6" stroke-width=".8"/>
+        <text x="${lx + 15}" y="${(o.ly + 4).toFixed(1)}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="11.5" fill="${o.c}">${esc(o.m.name)}</text></g>`;
+    });
   });
   svg.innerHTML = `<title id="gel-title">Gel of RNA foundation models by release year and parameter count</title>` + s + lbl;
   if (!ran) { svg.classList.add('run'); ran = true; setTimeout(() => svg.classList.remove('run'), 2600); }
@@ -406,11 +425,12 @@ function openBand(g) {
     document.getElementById('models').scrollIntoView({behavior: motion() ? 'smooth' : 'auto'});
   } else reveal(grp[0]);
 }
-svg.addEventListener('pointerover', e => { const g = e.target.closest('.band'); if (g) showTip(g); });
-svg.addEventListener('pointerout', e => { if (e.target.closest('.band')) hideTip(); });
+svg.addEventListener('pointerover', e => { const g = e.target.closest('.band') || bandOf(e.target.closest('.lbl')); if (g) showTip(g); });
+svg.addEventListener('pointerout', e => { if (e.target.closest('.band, .lbl')) hideTip(); });
 svg.addEventListener('focusin', e => { const g = e.target.closest('.band'); if (g) showTip(g); });
 svg.addEventListener('focusout', hideTip);
-svg.addEventListener('click', e => { const g = e.target.closest('.band'); if (g) openBand(g); });
+svg.addEventListener('click', e => { const l = e.target.closest('.lbl'); if (l) { hideTip(); reveal(M[+l.dataset.i]); return; } const g = e.target.closest('.band'); if (g) openBand(g); });
+function bandOf(l) { return l ? svg.querySelector(`.band[data-i="${l.dataset.i}"]`) || svg.querySelector(`.smear[data-lane="${M[+l.dataset.i].release.slice(0,4)}"]`) : null; }
 svg.addEventListener('keydown', e => { const g = e.target.closest('.band'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openBand(g); } });
 const ro = new ResizeObserver(() => drawGel()); ro.observe(box);
 

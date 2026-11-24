@@ -124,13 +124,13 @@ def render() -> None:
     body.append(o.text(cta, tx + 18, H - 78, 18, "#1A1540", "bold"))
 
     # ---- right: the gel ----
-    gx, gy, gw = 540, 54, W - 540 - 40
+    gx, gy, gw = 520, 54, W - 520 - 34
     lanes = ["Ladder"] + years
     lw = gw / (len(lanes) + .3)
     lane_x = lambda i: gx + (0 if i == 0 else (i + .3) * lw)
     top, bottom = gy + 86, H - 110
     y_of = lambda l: top + (LMAX - max(LMIN, l)) / (LMAX - LMIN) * (bottom - top)
-    bw = 44
+    bw = 28
     body.append(f'<rect x="{gx}" y="{gy + 28}" width="{gw}" height="{H - gy - 28 - 30}" rx="10" fill="url(#slab)" stroke="#3F36A3"/>')
     for i, ln in enumerate(lanes):
         x = lane_x(i) + 12
@@ -141,23 +141,39 @@ def render() -> None:
         body.append(f'<rect x="{lane_x(0) + 12}" y="{yy - 2.5:.1f}" width="{bw}" height="5" rx="2" fill="#E7E1FF" opacity=".8" filter="url(#glow)"/>')
         body.append(o.text(t, lane_x(0) + 12 + bw + 7, yy + 4.5, 13, "#C9C1EE"))
     labels = []
+    gap = 15.5                                   # minimum vertical distance between two names
     for j, yr in enumerate(years):
         x = lane_x(j + 1) + 12
         lane = [m for m in models if m["release"].startswith(yr)]
         sized = sorted((m for m in lane if m["pm"]), key=lambda m: -m["pm"])
-        room = (lw - bw - 12) + (30 if j == len(years) - 1 else 0)
-        last = -99
+        items = []
         for m in sized:
             yy = y_of(math.log10(m["pm"]))
             body.append(f'<rect x="{x:.1f}" y="{yy - 3.5:.1f}" width="{bw}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"/>')
-            if yy - last > 13 and o.width(m["name"], 12.5) < room:
-                labels.append(o.text(m["name"], x + bw + 7, yy + 4.3, 12.5, "#FFD9A6"))
-                last = yy
-        unsized = len(lane) - len(sized)
+            items.append([yy, yy, m["name"], "#FFD9A6"])
+        unsized = [m for m in lane if not m["pm"]]
         if unsized:
-            body.append(f'<rect x="{x:.1f}" y="{bottom + 18:.1f}" width="{bw}" height="{24 + unsized * 6}" rx="4" fill="url(#smear)"/>')
-            if o.width(f"{unsized} unsized", 12.5) < room:
-                labels.append(o.text(f"{unsized} unsized", x + bw + 7, bottom + 36, 12.5, "#A69DD6"))
+            sy = bottom + 18
+            body.append(f'<rect x="{x:.1f}" y="{sy:.1f}" width="{bw}" height="{24 + len(unsized) * 6}" rx="4" fill="url(#smear)"/>')
+            for k, m in enumerate(unsized):
+                items.append([sy + 12 + k, sy + 12 + k, m["name"], "#A69DD6"])
+        # spread names apart (1-D dodge) without leaving the gel
+        lo, hi = gy + 72, H - 42
+        for _ in range(200):
+            moved = False
+            for a, b in zip(items, items[1:]):
+                d = b[1] - a[1]
+                if d < gap:
+                    push = (gap - d) / 2
+                    a[1] -= push; b[1] += push; moved = True
+            for it in items:
+                it[1] = min(max(it[1], lo), hi)
+            if not moved:
+                break
+        lx = x + bw
+        for band_y, label_y, name, color in items:
+            labels.append(f'<path d="M{lx + 1:.1f} {band_y:.1f}h4L{lx + 10:.1f} {label_y:.1f}h3" fill="none" stroke="#8E86C6" stroke-width=".8" opacity=".8"/>')
+            labels.append(o.text(name, lx + 15, label_y + 4.2, 12, color))
     body += labels
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
