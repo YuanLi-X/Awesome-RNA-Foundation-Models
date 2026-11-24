@@ -1,8 +1,8 @@
 # Awesome RNA Foundation Models
 
-<p align="center"><a href="https://yuanli-x.github.io/awesome-rna-foundation-models/"><img src="assets/gel_hero.svg" width="100%" alt="RNA foundation models drawn as an electrophoresis gel: lanes are release years and band position is parameter count. Click to open the interactive site."></a></p>
+<p align="center"><a href="https://yuanli-x.github.io/Awesome-RNA-Foundation-Models/"><img src="assets/gel_hero.svg" width="100%" alt="RNA foundation models drawn as an electrophoresis gel: lanes are release years and band position is parameter count. Click to open the interactive site."></a></p>
 
-<p align="center"><b><a href="https://yuanli-x.github.io/awesome-rna-foundation-models/">Open the interactive site</a></b> &nbsp;|&nbsp; <a href="#paper-list">Paper list</a> &nbsp;|&nbsp; <a href="#detailed-tables">Detailed tables</a> &nbsp;|&nbsp; <a href="#contributing">Contribute</a></p>
+<p align="center"><b><a href="https://yuanli-x.github.io/Awesome-RNA-Foundation-Models/">Open the interactive site</a></b> &nbsp;|&nbsp; <a href="#paper-list">Paper list</a> &nbsp;|&nbsp; <a href="#detailed-tables">Detailed tables</a> &nbsp;|&nbsp; <a href="#contributing">Contribute</a></p>
 
 <p align="center"><a href="https://awesome.re"><img src="https://awesome.re/badge.svg" alt="Awesome"></a> <img src="https://img.shields.io/badge/models-54-FFB347?labelColor=140F3C" alt="54 models"> <img src="https://img.shields.io/badge/benchmarks-12-C9C1EE?labelColor=140F3C" alt="12 benchmarks"> <img src="https://img.shields.io/badge/literature_scan-daily-C9C1EE?labelColor=140F3C" alt="Literature scanned daily"> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-C9C1EE?labelColor=140F3C" alt="MIT license"></a></p>
 

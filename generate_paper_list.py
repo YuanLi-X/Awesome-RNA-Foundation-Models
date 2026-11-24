@@ -25,7 +25,7 @@ PAPERS_FILE = DATA_DIR / "papers.yaml"
 # pointing here on purpose rather than at whichever fork serves the README.
 # Public site built from docs/ by scripts/build_site.py (GitHub Pages). Point this at the
 # canonical repository's Pages URL when the site is published there.
-SITE_URL = "https://yuanli-x.github.io/awesome-rna-foundation-models/"
+SITE_URL = "https://yuanli-x.github.io/Awesome-RNA-Foundation-Models/"
 
 TIMELINE_INTERACTIVE_BASE_URL = "https://raw.githack.com/COLA-Laboratory/Awesome-RNA-Foundation-Models/main/assets"
 
