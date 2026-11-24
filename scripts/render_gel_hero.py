@@ -26,7 +26,7 @@ FONTS = {
 }
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 
-W, H = 1280, 660
+W, H = 1280, 790
 LMIN, LMAX = -0.4, math.log10(40000)        # 0.4M .. 40B, log10 of params in millions
 
 
@@ -94,95 +94,83 @@ def params_m(text) -> float | None:
 def render() -> None:
     records = yaml.safe_load(PAPERS.read_text(encoding="utf-8")) or []
     models = [{"name": r["name"], "release": r.get("timeline_date") or r["date"], "pm": params_m(r.get("params"))} for r in records]
+    models.sort(key=lambda m: (m["release"], m["name"].lower()))
     years = sorted({m["release"][:4] for m in models})
     newest = max(models, key=lambda m: (m["release"], m["name"]))
     o = Outliner()
     body = []
 
-    # ---- left: title, figure legend, stats ----
+    # ---- header: title left, figure legend right ----
     tx = 56
-    for i, line in enumerate(["RNA foundation", "models, run", "on a gel."]):
-        body.append(o.text(line, tx, 128 + i * 66, 66, "#FFE6BF", "bold"))
-    legend = ("Each lane is a year of first public release and each band is one model. Larger models "
-              "migrate less, so they sit near the wells; the ladder marks parameter count from 1M to 10B. "
-              "Brighter bands hold several models of a similar size.")
-    y = 336
-    body.append(o.text("Fig. 1", tx, y, 18, "#FFE6BF", "bold"))
-    first_indent = o.width("Fig. 1  ", 18, "bold")
-    lines = o.wrap(legend, 18, 440 - first_indent)
-    body.append(o.text(lines[0], tx + first_indent, y, 18, "#C9C1EE"))
-    rest = o.wrap(" ".join(lines[1:]), 18, 440)
+    for i, line in enumerate(["RNA foundation models,", "run on a gel."]):
+        body.append(o.text(line, tx, 98 + i * 60, 58, "#FFE6BF", "bold"))
+    lx_, ly_, lwid = 700, 72, 524
+    legend = ("Each lane is one model, in order of first public release and grouped by year. Larger models "
+              "migrate less, so their band sits nearer the well; the ladder marks parameter count from 1M to "
+              "10B. A smear means the model reports no size.")
+    indent = o.width("Fig. 1  ", 17, "bold")
+    body.append(o.text("Fig. 1", lx_, ly_, 17, "#FFE6BF", "bold"))
+    first = o.wrap(legend, 17, lwid - indent)[0]
+    body.append(o.text(first, lx_ + indent, ly_, 17, "#C9C1EE"))
+    rest = o.wrap(legend[len(first):].strip(), 17, lwid)
     for j, line in enumerate(rest, start=1):
-        body.append(o.text(line, tx, y + j * 26, 18, "#C9C1EE"))
-    y += (len(rest) + 1) * 26 + 22
+        body.append(o.text(line, lx_, ly_ + j * 24, 17, "#C9C1EE"))
     body.append(o.text(f"{len(models)} models since {years[0]}. Newest: {newest['name']}, "
-                       f"{MONTHS[int(newest['release'][5:7]) - 1]} {newest['release'][:4]}.", tx, y, 17, "#8E86C6"))
-    # call to action
-    cta = "Click to open the interactive gel"
-    cw = o.width(cta, 18, "bold") + 36
-    body.append(f'<rect x="{tx}" y="{H - 106}" width="{cw:.0f}" height="44" rx="6" fill="#FFB347"/>')
-    body.append(o.text(cta, tx + 18, H - 78, 18, "#1A1540", "bold"))
+                       f"{MONTHS[int(newest['release'][5:7]) - 1]} {newest['release'][:4]}.",
+                       lx_, ly_ + (len(rest) + 1) * 24 + 8, 16, "#8E86C6"))
 
-    # ---- right: the gel ----
-    gx, gy, gw = 520, 54, W - 520 - 34
-    lanes = ["Ladder"] + years
-    lw = gw / (len(lanes) + .3)
-    lane_x = lambda i: gx + (0 if i == 0 else (i + .3) * lw)
-    top, bottom = gy + 86, H - 110
+    # ---- the gel: one lane per model ----
+    NZ = 318                                  # top of the slab; names sit above it
+    well_y, slab_b = NZ + 12, NZ + 372
+    top, bottom = NZ + 46, slab_b - 58
     y_of = lambda l: top + (LMAX - max(LMIN, l)) / (LMAX - LMIN) * (bottom - top)
-    bw = 28
-    body.append(f'<rect x="{gx}" y="{gy + 28}" width="{gw}" height="{H - gy - 28 - 30}" rx="10" fill="url(#slab)" stroke="#3F36A3"/>')
-    for i, ln in enumerate(lanes):
-        x = lane_x(i) + 12
-        body.append(o.text(ln, x, gy + 16, 17, "#FFE6BF" if i else "#C9C1EE", "bold" if i else "regular"))
-        body.append(f'<rect x="{x}" y="{gy + 44}" width="{min(lw - 24, bw + 30):.1f}" height="15" rx="2" fill="#0B0726" stroke="#463DA8"/>')
+    x0, gap_y, right = 104, 12, 46
+    lw = (W - x0 - right - gap_y * (len(years) - 1)) / len(models)
+    bw = min(16, lw * .74)
+    body.append(f'<rect x="46" y="{NZ}" width="{W - 56}" height="{slab_b - NZ}" rx="10" fill="url(#slab)" stroke="#3F36A3"/>')
+    body.append(f'<g transform="translate(66,{NZ - 8}) rotate(-58)">{o.text("Ladder", 0, 0, 13, "#C9C1EE")}</g>')
+    body.append(f'<rect x="58" y="{well_y}" width="24" height="9" rx="1.5" fill="#0B0726" stroke="#463DA8"/>')
     for l, t in [(0, "1M"), (1, "10M"), (2, "100M"), (3, "1B"), (4, "10B")]:
         yy = y_of(l)
-        body.append(f'<rect x="{lane_x(0) + 12}" y="{yy - 2.5:.1f}" width="{bw}" height="5" rx="2" fill="#E7E1FF" opacity=".8" filter="url(#glow)"/>')
-        body.append(o.text(t, lane_x(0) + 12 + bw + 7, yy + 4.5, 13, "#C9C1EE"))
-    labels = []
-    gap = 15.5                                   # minimum vertical distance between two names
-    for j, yr in enumerate(years):
-        x = lane_x(j + 1) + 12
-        lane = [m for m in models if m["release"].startswith(yr)]
-        sized = sorted((m for m in lane if m["pm"]), key=lambda m: -m["pm"])
-        items = []
-        for m in sized:
+        body.append(f'<line x1="84" x2="{W - 14}" y1="{yy:.1f}" y2="{yy:.1f}" stroke="#E7E1FF" stroke-opacity=".07"/>')
+        body.append(f'<rect x="58" y="{yy - 2.5:.1f}" width="24" height="5" rx="2" fill="#E7E1FF" opacity=".8" filter="url(#glow)"/>')
+        body.append(o.text(t, 40, yy + 4.5, 13, "#C9C1EE", anchor="end"))
+    yi, prev, start_x, prev_end, groups = -1, None, 0.0, 0.0, []
+    for i, m in enumerate(models):
+        yr = m["release"][:4]
+        if yr != prev:
+            if prev:
+                groups.append((prev, start_x, prev_end))
+            yi += 1
+            prev, start_x = yr, x0 + i * lw + yi * gap_y
+        lx = x0 + i * lw + yi * gap_y
+        cx = lx + lw / 2
+        prev_end = lx + lw
+        body.append(f'<rect x="{cx - bw / 2:.1f}" y="{well_y}" width="{bw:.1f}" height="9" rx="1.5" fill="#0B0726" stroke="#463DA8"/>')
+        if m["pm"]:
             yy = y_of(math.log10(m["pm"]))
-            body.append(f'<rect x="{x:.1f}" y="{yy - 3.5:.1f}" width="{bw}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"/>')
-            items.append([yy, yy, m["name"], "#FFD9A6"])
-        unsized = [m for m in lane if not m["pm"]]
-        if unsized:
-            sy = bottom + 18
-            body.append(f'<rect x="{x:.1f}" y="{sy:.1f}" width="{bw}" height="{24 + len(unsized) * 6}" rx="4" fill="url(#smear)"/>')
-            for k, m in enumerate(unsized):
-                items.append([sy + 12 + k, sy + 12 + k, m["name"], "#A69DD6"])
-        # spread names apart (1-D dodge) without leaving the gel
-        lo, hi = gy + 72, H - 42
-        for _ in range(200):
-            moved = False
-            for a, b in zip(items, items[1:]):
-                d = b[1] - a[1]
-                if d < gap:
-                    push = (gap - d) / 2
-                    a[1] -= push; b[1] += push; moved = True
-            for it in items:
-                it[1] = min(max(it[1], lo), hi)
-            if not moved:
-                break
-        lx = x + bw
-        for band_y, label_y, name, color in items:
-            labels.append(f'<path d="M{lx + 1:.1f} {band_y:.1f}h4L{lx + 10:.1f} {label_y:.1f}h3" fill="none" stroke="#8E86C6" stroke-width=".8" opacity=".8"/>')
-            labels.append(o.text(name, lx + 15, label_y + 4.2, 12, color))
-    body += labels
+            body.append(f'<rect x="{cx - bw / 2:.1f}" y="{yy - 3:.1f}" width="{bw:.1f}" height="6" rx="2.5" fill="#FFB347" opacity=".85" filter="url(#glow)"/>')
+        else:
+            body.append(f'<rect x="{cx - bw / 2:.1f}" y="{bottom + 14:.1f}" width="{bw:.1f}" height="34" rx="3" fill="url(#smear)"/>')
+        body.append(f'<g transform="translate({cx - 3:.1f},{NZ - 8}) rotate(-58)">{o.text(m["name"], 0, 0, 12.5, "#FFD9A6")}</g>')
+    groups.append((prev, start_x, prev_end))
+    for yr, a, b in groups:
+        body.append(f'<path d="M{a + 2:.1f} {slab_b + 10}v7H{b - 2:.1f}v-7" fill="none" stroke="#8E86C6" stroke-width="1.2"/>')
+        body.append(o.text(yr, (a + b) / 2, slab_b + 37, 16, "#FFE6BF", "bold", anchor="middle"))
+
+    # call to action, bottom right
+    cta = "Click to open the interactive gel"
+    cw = o.width(cta, 17, "bold") + 34
+    body.append(f'<rect x="{W - 40 - cw:.0f}" y="{H - 62}" width="{cw:.0f}" height="40" rx="6" fill="#FFB347"/>')
+    body.append(o.text(cta, W - 40 - cw + 17, H - 36, 17, "#1A1540", "bold"))
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
-<title>RNA foundation models, run on a gel: {len(models)} models by release year and parameter count</title>
+<title>RNA foundation models, run on a gel: one lane per model ({len(models)} models), band position by parameter count</title>
 <defs>
 <radialGradient id="field" cx="70%" cy="40%" r="90%"><stop offset="0" stop-color="#211A66"/><stop offset=".6" stop-color="#140F3C"/></radialGradient>
 <linearGradient id="slab" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2187"/><stop offset="1" stop-color="#1B1560"/></linearGradient>
-<linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".5"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
-<filter id="glow" x="-40%" y="-400%" width="180%" height="900%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".55"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
+<filter id="glow" x="-60%" y="-400%" width="220%" height="900%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .75  0 0 0 0 .72  0 0 0 0 1  0 0 0 .16 0"/></filter>
 {o.defs_svg()}
 </defs>

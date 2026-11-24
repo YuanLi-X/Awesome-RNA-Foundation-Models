@@ -39,9 +39,14 @@ a{color:inherit}
 .top nav{display:flex;flex-wrap:wrap;gap:6px 22px;font:500 15px var(--cond)}
 .top nav a{text-decoration:none;color:var(--on-field)}
 .top nav a:hover{color:var(--glow-core)}
-.figure{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,9fr);gap:clamp(20px,3vw,44px);padding:18px 0 34px;align-items:start}
-.figure h1{font:700 clamp(40px,5.4vw,68px)/1 var(--cond);letter-spacing:-.015em;color:var(--glow-core);margin:6px 0 26px;text-wrap:balance}
-.legend p{margin:0 0 14px;font:16px/1.55 var(--cond);max-width:42ch}
+.figure{padding:14px 0 30px}
+.head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end;margin-bottom:22px}
+.under{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:16px}
+.under .chips{margin:0}
+.hint{font:15px var(--cond);color:var(--on-field-dim)}
+.figure h1{font:700 clamp(36px,4.6vw,64px)/1 var(--cond);letter-spacing:-.015em;color:var(--glow-core);margin:0;text-wrap:balance}
+.legend p{margin:0 0 10px;font:16px/1.55 var(--cond);max-width:60ch}
+.legend p:last-child{margin:0}
 .legend b{color:var(--glow-core);font-weight:700}
 .legend .meta{color:var(--on-field-dim);font-size:15px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
@@ -52,19 +57,17 @@ a{color:inherit}
 .chip[aria-pressed="false"]{color:var(--on-field-dim);background:transparent}
 .chip[aria-pressed="false"] i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--on-field-dim)}
 .chip:hover{border-color:var(--on-field)}
-.gel-box{position:relative}
-#gel{display:block;width:100%;height:auto;overflow:visible;touch-action:manipulation}
-#gel .band{cursor:pointer;transition:opacity .25s}
-#gel .band.off{opacity:.1}
-#gel .lbl{transition:opacity .25s}
-#gel .lbl.off{opacity:.2}
-#gel .lbl{cursor:pointer}
-#gel .lbl:hover text{fill:#fff}
-#gel .band:focus{outline:none}
-#gel .band:focus rect.b,#gel .band:hover rect.b{stroke:#fff;stroke-width:1.2}
+.gel-box{position:relative;overflow-x:auto;overflow-y:visible;scrollbar-color:#3F36A3 transparent}
+#gel{display:block;overflow:visible;touch-action:pan-x pan-y}
+#gel .lane{cursor:pointer;transition:opacity .25s}
+#gel .lane.off{opacity:.13}
+#gel .lane .hit{fill:#fff;opacity:0}
+#gel .lane:hover .hit,#gel .lane:focus .hit{opacity:.06}
+#gel .lane:hover text,#gel .lane:focus text{fill:#fff}
+#gel .lane:focus{outline:none}
 @media (prefers-reduced-motion:no-preference){
-  #gel.run .band{animation:run 1.5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--l) * 90ms + 200ms)}
-  #gel.run .smear{animation:fadein 1.2s ease both;animation-delay:1.2s}
+  #gel.run .b{animation:run 1.6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--k) * 14ms + 200ms)}
+  #gel.run .sm{animation:fadein 1.2s ease both;animation-delay:1.3s}
 }
 @keyframes run{from{transform:translateY(var(--dy));opacity:.2}to{transform:none;opacity:1}}
 @keyframes fadein{from{opacity:0}}
@@ -155,8 +158,7 @@ footer code{color:var(--glow-core)}
 footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
 
 @media (max-width:900px){
-  .figure{grid-template-columns:1fr;gap:6px}
-  .figure h1{margin-bottom:16px}
+  .head{grid-template-columns:1fr;gap:14px}
   .controls{grid-template-columns:1fr 1fr}
   .controls label:first-child{grid-column:1/-1}
   .two,footer .cols{grid-template-columns:1fr}
@@ -190,15 +192,20 @@ footer .fine{padding:0 0 44px;font-size:13.5px;color:var(--on-field-dim)}
       <nav aria-label="Sections"><a class="opt" href="#models">Models</a><a class="opt" href="#benchmarks">Benchmarks</a><a class="opt" href="#surveys">Surveys</a><a id="gh-link" href="#">GitHub</a></nav>
     </header>
     <div class="figure">
-      <div class="legend">
+      <div class="head">
         <h1>RNA foundation models, run on a gel.</h1>
-        <p><b>Fig. 1</b> Each lane is a year of first public release and each band is one model. Larger models migrate less, so they sit near the wells; the ladder marks parameter count from 1M to 10B. Brighter bands hold several models of a similar size, and the smear at the bottom is models that report no size.</p>
-        <p class="meta" id="meta"></p>
-        <div class="chips" id="chips" aria-label="Show models by scope"></div>
+        <div class="legend">
+          <p><b>Fig. 1</b> Each lane is one model, in order of first public release and grouped by year. Larger models migrate less, so their band sits nearer the well; the ladder on the left marks parameter count from 1M to 10B. A smear means the model reports no size.</p>
+          <p class="meta" id="meta"></p>
+        </div>
       </div>
       <div class="gel-box" id="gel-box">
-        <svg id="gel" role="img" aria-labelledby="gel-title"><title id="gel-title">Gel of RNA foundation models by release year and parameter count</title></svg>
+        <svg id="gel" role="img" aria-labelledby="gel-title"><title id="gel-title">Gel of RNA foundation models: one lane per model, band position by parameter count</title></svg>
         <div class="tip" id="tip" role="status" aria-live="polite"></div>
+      </div>
+      <div class="under">
+        <div class="chips" id="chips" aria-label="Show models by scope"></div>
+        <span class="hint">Hover a lane for details, click it to open the model below.</span>
       </div>
     </div>
   </div>
@@ -324,114 +331,75 @@ $('#f-w').onchange = e => { st.w = e.target.checked; update(); };
 $('#f-code').onchange = e => { st.code = e.target.checked; update(); };
 let qt; $('#q').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { st.q = e.target.value.trim().toLowerCase(); update(); }, 120); });
 
-/* ---------- the gel ---------- */
+/* ---------- the gel: one lane per model, grouped by year ---------- */
 const svg = $('#gel'), box = $('#gel-box'), tip = $('#tip');
+const order = [...M].sort((a,b) => ym(a.release) - ym(b.release) || a.name.localeCompare(b.name));
 let ran = false, geom = null;
 function drawGel() {
-  const W = box.clientWidth, narrow = W < 560;
-  const H = narrow ? 470 : Math.min(720, Math.max(560, W * .95));
-  const lanes = ['Ladder', ...years], pad = narrow ? 0 : 16;
-  const extra = narrow ? .3 : 0;                                          // on phones the ladder lane is wider for its labels
-  const lw = (W - pad) / (lanes.length + extra), lx0 = i => i ? (i + extra) * lw : 0;
-  const top = 74, bottom = H - 86;
+  const W = Math.max(box.clientWidth, 880), H = 530;
+  const NZ = 104, wellY = NZ + 12, slabB = H - 52, top = NZ + 46, bottom = slabB - 58;
   const yOf = l => top + (LMAX - Math.max(LMIN, l)) / (LMAX - LMIN) * (bottom - top);
-  const bw = narrow ? Math.min(40, lw * .6) : 26, showLabels = !narrow && lw - bw > 78;
-  geom = { yOf, lw, bw, top, bottom };
+  const x0 = 104, gapY = 12, right = 46;
+  const lw = (W - x0 - right - gapY * (years.length - 1)) / order.length;
+  const bw = Math.min(16, lw * .74);
+  geom = { yOf };
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H);
   let s = `<defs>
       <linearGradient id="gslab" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2187"/><stop offset="1" stop-color="#1B1560"/></linearGradient>
-      <filter id="glow" x="-40%" y="-400%" width="180%" height="900%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      <linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".5"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
+      <filter id="glow" x="-60%" y="-400%" width="220%" height="900%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="smear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347" stop-opacity="0"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".55"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></linearGradient>
     </defs>
-    <rect x="0" y="28" width="${W}" height="${H - 28}" rx="10" fill="url(#gslab)" stroke="#3F36A3"/>`;
-  lanes.forEach((ln, i) => {
-    const x = lx0(i);
-    s += `<text x="${x + 10}" y="18" font-family="IBM Plex Sans Condensed, sans-serif" font-weight="${i ? 700 : 500}" font-size="15" fill="${i ? '#FFE6BF' : '#C9C1EE'}">${ln}</text>
-          <rect x="${x + 10}" y="44" width="${narrow ? bw : Math.min(lw - 20, bw + 34)}" height="15" rx="2" fill="#0B0726" stroke="#463DA8"/>`;
-  });
-  // ladder
-  const lx = 10;
+    <rect x="46" y="${NZ}" width="${W - 46 - 10}" height="${slabB - NZ}" rx="10" fill="url(#gslab)" stroke="#3F36A3"/>`;
+  // ladder lane + scale
+  s += `<text transform="translate(${66},${NZ - 8}) rotate(-58)" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12.5" fill="#C9C1EE">Ladder</text>
+        <rect x="58" y="${wellY}" width="24" height="9" rx="1.5" fill="#0B0726" stroke="#463DA8"/>`;
   [[0,'1M'],[1,'10M'],[2,'100M'],[3,'1B'],[4,'10B']].forEach(([l,t]) => {
     const y = yOf(l);
-    s += `<rect x="${lx}" y="${y - 2.5}" width="${bw}" height="5" rx="2" fill="#E7E1FF" opacity=".75" filter="url(#glow)"/>
-          <text x="${lx + bw + 6}" y="${y + 4}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="${narrow ? 11 : 12.5}" fill="#C9C1EE">${t}</text>`;
+    s += `<line x1="84" x2="${W - 14}" y1="${y}" y2="${y}" stroke="#E7E1FF" stroke-opacity=".07"/>
+          <rect x="58" y="${y - 2.5}" width="24" height="5" rx="2" fill="#E7E1FF" opacity=".8" filter="url(#glow)"/>
+          <text x="40" y="${y + 4}" text-anchor="end" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12.5" fill="#C9C1EE">${t}</text>`;
   });
-  // bands, then names spread down the right-hand side of each band with a leader line
-  let lbl = '';
-  const gap = 14.5;
-  years.forEach((yr, j) => {
-    const x = lx0(j + 1) + 10, inLane = M.filter(m => m.release.startsWith(yr));
-    const sized = inLane.filter(m => m.params_m).sort((a,b) => lg(b) - lg(a));
-    const items = [];
-    sized.forEach(m => {
-      const y = yOf(lg(m));
-      s += `<g class="band" data-i="${m.idx}" style="--dy:${(51 - y).toFixed(1)}px;--l:${j}" tabindex="0" role="button" aria-label="${esc(m.name)}, ${esc(m.params)} parameters, ${fmtYM(m.release)}">
-              <rect x="${x - 2}" y="${y - 7}" width="${bw + 4}" height="14" fill="transparent"/>
-              <rect class="b" x="${x}" y="${y - 3.5}" width="${bw}" height="7" rx="3" fill="#FFB347" opacity=".72" filter="url(#glow)"/></g>`;
-      items.push({m, y, ly: y, c: '#FFD9A6'});
-    });
-    const nr = inLane.filter(m => !m.params_m);
-    if (nr.length) {
-      s += `<g class="band smear" data-lane="${yr}" tabindex="0" role="button" aria-label="${nr.length} models from ${yr} with no reported size">
-              <rect x="${x}" y="${bottom + 18}" width="${bw}" height="${26 + nr.length * 6}" rx="4" fill="url(#smear)"/></g>`;
-      nr.forEach((m, k) => items.push({m, y: bottom + 30 + k, ly: bottom + 30 + k, c: '#A69DD6'}));
-    }
-    if (!showLabels) return;
-    const lo = top - 4, hi = H - 30;                       // 1-D dodge inside the gel
-    for (let it = 0; it < 200; it++) {
-      let moved = false;
-      for (let k = 1; k < items.length; k++) {
-        const d = items[k].ly - items[k-1].ly;
-        if (d < gap) { const p = (gap - d) / 2; items[k-1].ly -= p; items[k].ly += p; moved = true; }
-      }
-      items.forEach(o => o.ly = Math.min(Math.max(o.ly, lo), hi));
-      if (!moved) break;
-    }
-    const lx = x + bw;
-    items.forEach(o => {
-      lbl += `<g class="lbl" data-i="${o.m.idx}"><path d="M${lx + 1} ${o.y.toFixed(1)}h4L${lx + 10} ${o.ly.toFixed(1)}h3" fill="none" stroke="#8E86C6" stroke-width=".8"/>
-        <text x="${lx + 15}" y="${(o.ly + 4).toFixed(1)}" font-family="IBM Plex Sans Condensed, sans-serif" font-size="11.5" fill="${o.c}">${esc(o.m.name)}</text></g>`;
-    });
+  // model lanes
+  let k = 0, yi = -1, prevYear = null, groupStart = 0, prevEnd = 0;
+  const brackets = [];
+  order.forEach((m, i) => {
+    const yr = m.release.slice(0,4);
+    if (yr !== prevYear) { if (prevYear) brackets.push([prevYear, groupStart, prevEnd]); yi++; prevYear = yr; groupStart = x0 + i * lw + yi * gapY; }
+    const lx = x0 + i * lw + yi * gapY, cx = lx + lw / 2;
+    prevEnd = lx + lw;
+    const band = m.params_m
+      ? `<rect class="b" style="--dy:${(wellY + 4 - yOf(lg(m))).toFixed(1)}px;--k:${k++}" x="${cx - bw/2}" y="${yOf(lg(m)) - 3}" width="${bw}" height="6" rx="2.5" fill="#FFB347" opacity=".85" filter="url(#glow)"/>`
+      : `<rect class="sm" x="${cx - bw/2}" y="${bottom + 14}" width="${bw}" height="34" rx="3" fill="url(#smear)"/>`;
+    s += `<g class="lane" data-i="${m.idx}" tabindex="0" role="button" aria-label="${esc(m.name)}, ${esc(m.params || 'size not reported')}, ${fmtYM(m.release)}">
+      <rect class="hit" x="${lx}" y="${NZ - 92}" width="${lw}" height="${slabB - NZ + 92}"/>
+      <rect x="${cx - bw/2}" y="${wellY}" width="${bw}" height="9" rx="1.5" fill="#0B0726" stroke="#463DA8"/>
+      ${band}
+      <text transform="translate(${(cx - 3).toFixed(1)},${NZ - 8}) rotate(-58)" font-family="IBM Plex Sans Condensed, sans-serif" font-size="12" fill="#FFD9A6">${esc(m.name)}</text></g>`;
+    if (i === order.length - 1) brackets.push([yr, groupStart, lx + lw]);
   });
-  svg.innerHTML = `<title id="gel-title">Gel of RNA foundation models by release year and parameter count</title>` + s + lbl;
-  if (!ran) { svg.classList.add('run'); ran = true; setTimeout(() => svg.classList.remove('run'), 2600); }
+  brackets.forEach(([yr, a, b]) => {
+    s += `<path d="M${a + 2} ${slabB + 10}v7H${b - 2}v-7" fill="none" stroke="#8E86C6" stroke-width="1.2"/>
+          <text x="${(a + b) / 2}" y="${slabB + 36}" text-anchor="middle" font-family="IBM Plex Sans Condensed, sans-serif" font-weight="700" font-size="15" fill="#FFE6BF">${yr}</text>`;
+  });
+  svg.innerHTML = `<title id="gel-title">Gel of RNA foundation models: one lane per model, band position by parameter count</title>` + s;
+  if (!ran) { svg.classList.add('run'); ran = true; setTimeout(() => svg.classList.remove('run'), 2800); }
   paintGel();
 }
-function paintGel() {
-  svg.querySelectorAll('.band[data-i], .lbl').forEach(g => g.classList.toggle('off', !pass(M[+g.dataset.i])));
-  svg.querySelectorAll('.smear').forEach(g => g.classList.toggle('off', !M.some(m => !m.params_m && m.release.startsWith(g.dataset.lane) && pass(m))));
-}
-// all models that share a band (same lane, within a few pixels) are listed together
-function bandGroup(g) {
-  if (g.dataset.lane) return M.filter(m => !m.params_m && m.release.startsWith(g.dataset.lane));
-  const m = M[+g.dataset.i], y = geom.yOf(lg(m)), yr = m.release.slice(0,4);
-  return M.filter(o => o.params_m && o.release.startsWith(yr) && Math.abs(geom.yOf(lg(o)) - y) < 7).sort((a,b) => b.params_m - a.params_m);
-}
+function paintGel() { svg.querySelectorAll('.lane').forEach(g => g.classList.toggle('off', !pass(M[+g.dataset.i]))); }
 function showTip(g) {
-  const grp = bandGroup(g).filter(pass), first = grp[0] || bandGroup(g)[0];
-  const r = g.getBoundingClientRect(), bx = box.getBoundingClientRect();
-  tip.innerHTML = g.dataset.lane
-    ? `<b>${grp.length} without a reported size</b><span>${grp.map(m => esc(m.name)).join(', ')}</span>`
-    : `<b>${esc(first.name)}</b><span>${esc(first.params)} parameters, ${fmtYM(first.release)}</span>${grp.length > 1 ? `<span class="more">Same band: ${grp.slice(1).map(m => esc(m.name)).join(', ')}</span>` : ''}`;
-  const half = 130, left = Math.min(Math.max(r.left - bx.left + r.width / 2, half), bx.width - half);
-  tip.style.left = left + 'px'; tip.style.top = (r.top - bx.top) + 'px'; tip.classList.add('on');
+  const m = M[+g.dataset.i], r = g.querySelector('.b, .sm').getBoundingClientRect(), bx = box.getBoundingClientRect();
+  tip.innerHTML = `<b>${esc(m.name)}</b><span>${esc(m.params ? m.params + ' parameters' : 'Size not reported')}, ${fmtYM(m.release)}</span><span class="more">${esc(SC[m.scope].long)}</span>`;
+  const half = 130, x = r.left - bx.left + box.scrollLeft + r.width / 2;
+  tip.style.left = Math.min(Math.max(x, half + box.scrollLeft), box.scrollLeft + bx.width - half) + 'px';
+  tip.style.top = (r.top - bx.top) + 'px'; tip.classList.add('on');
 }
 const hideTip = () => tip.classList.remove('on');
-function openBand(g) {
-  hideTip();
-  const grp = bandGroup(g);
-  if (g.dataset.lane || grp.length > 1) {          // several models: filter the explorer to them
-    reset(false); st.q = ''; st.only = new Set(grp.map(m => m.idx)); update();
-    document.getElementById('models').scrollIntoView({behavior: motion() ? 'smooth' : 'auto'});
-  } else reveal(grp[0]);
-}
-svg.addEventListener('pointerover', e => { const g = e.target.closest('.band') || bandOf(e.target.closest('.lbl')); if (g) showTip(g); });
-svg.addEventListener('pointerout', e => { if (e.target.closest('.band, .lbl')) hideTip(); });
-svg.addEventListener('focusin', e => { const g = e.target.closest('.band'); if (g) showTip(g); });
+svg.addEventListener('pointerover', e => { const g = e.target.closest('.lane'); if (g) showTip(g); });
+svg.addEventListener('pointerout', e => { if (e.target.closest('.lane')) hideTip(); });
+svg.addEventListener('focusin', e => { const g = e.target.closest('.lane'); if (g) showTip(g); });
 svg.addEventListener('focusout', hideTip);
-svg.addEventListener('click', e => { const l = e.target.closest('.lbl'); if (l) { hideTip(); reveal(M[+l.dataset.i]); return; } const g = e.target.closest('.band'); if (g) openBand(g); });
-function bandOf(l) { return l ? svg.querySelector(`.band[data-i="${l.dataset.i}"]`) || svg.querySelector(`.smear[data-lane="${M[+l.dataset.i].release.slice(0,4)}"]`) : null; }
-svg.addEventListener('keydown', e => { const g = e.target.closest('.band'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openBand(g); } });
+svg.addEventListener('click', e => { const g = e.target.closest('.lane'); if (g) { hideTip(); reveal(M[+g.dataset.i]); } });
+svg.addEventListener('keydown', e => { const g = e.target.closest('.lane'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); hideTip(); reveal(M[+g.dataset.i]); } });
 const ro = new ResizeObserver(() => drawGel()); ro.observe(box);
 
 /* ---------- newest ---------- */
